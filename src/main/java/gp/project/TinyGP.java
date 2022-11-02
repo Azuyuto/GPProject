@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.StringTokenizer;
 
@@ -11,11 +13,12 @@ public class TinyGP {
     long seed; // saved seed
     static Random rd = new Random();
     static StringBuilder stringBuilder = new StringBuilder();
+    static Tree tree = new Tree("Program");
 
     final int
+            PROGRAM = 100,
             STATEMENT = 101,
             SIMPLE_STATEMENT = 102,
-            IS_RECURSION = 103,
             FITNESS_SET_START = STATEMENT,
             FITNESS_SET_END = SIMPLE_STATEMENT;
 
@@ -49,7 +52,25 @@ public class TinyGP {
         population = create_random_population(POPULATION_SIZE, DEPTH, fitness );
     }
 
-    int grow( char [] buffer, int pos, int max, int depth ) {
+    int getChildrenByParent(int PARENT)
+    {
+        switch(PARENT)
+        {
+            case PROGRAM:
+                return STATEMENT;
+            case STATEMENT:
+                List<Integer> list = new ArrayList<>();
+                list.add(STATEMENT);
+                list.add(SIMPLE_STATEMENT);
+                return list.get(rd.nextInt(list.size()));
+            case SIMPLE_STATEMENT:
+                return 0;
+            default:
+                return 0;
+        }
+    }
+
+    int grow( char [] buffer, int pos, int max, int depth, int PARENT) {
         char prim = (char) rd.nextInt(2);
         int first_child;
 
@@ -65,23 +86,23 @@ public class TinyGP {
             return(pos+1);
         }
         else  {
-            prim = (char) (rd.nextInt(FITNESS_SET_END - FITNESS_SET_START + 1) + FITNESS_SET_START);
+            prim = (char) getChildrenByParent(PARENT);
             switch (prim) {
                 case STATEMENT:
                     int r = rd.nextInt(2);
                     buffer[pos] = prim;
                     buffer[pos+1] = (char)(r+1);
                     if (r == 1) {
-                        first_child = grow(buffer, pos + 2, max, depth - 1);
+                        first_child = grow(buffer, pos + 2, max, depth - 1, STATEMENT);
                         if (first_child < 0)
                             return (-1);
 
-                        return (grow(buffer, first_child, max, depth - 1));
+                        return (grow(buffer, first_child, max, depth - 1, STATEMENT));
                     }
-                    return (grow(buffer, pos + 2, max, depth - 1));
+                    return (grow(buffer, pos + 2, max, depth - 1, STATEMENT));
                 case SIMPLE_STATEMENT:
                     buffer[pos] = prim;
-                    return grow(buffer, pos + 1, max, depth - 1);
+                    return grow(buffer, pos + 1, max, depth - 1, SIMPLE_STATEMENT);
                 default:
                     return 0;
             }
@@ -92,10 +113,10 @@ public class TinyGP {
         char [] ind;
         int len;
 
-        len = grow( buffer, 0, MAXIMUM_LENGTH, depth );
+        len = grow( buffer, 0, MAXIMUM_LENGTH, depth, PROGRAM);
 
         while (len < 0 )
-            len = grow( buffer, 0, MAXIMUM_LENGTH, depth );
+            len = grow( buffer, 0, MAXIMUM_LENGTH, depth, PROGRAM);
 
         ind = new char[len];
 
@@ -168,33 +189,29 @@ public class TinyGP {
         }
     }
 
-    int print_in_div( char []buffer, int bufferCounter ) {
+    int print_in_div( char []buffer, int bufferCounter, Tree current_tree) {
         int a1=0, a2;
         if ( buffer[bufferCounter] < FITNESS_SET_START) {
-            stringBuilder.append( "X" + (buffer[bufferCounter] + 1 ));
+            current_tree.data = "X" + (buffer[bufferCounter] + 1 );
             return( ++bufferCounter );
         }
         boolean one_arg = false;
         switch (buffer[bufferCounter]) {
             case STATEMENT:
-                stringBuilder.append("STATEMENT(");
+                current_tree.data = "STATEMENT";
                 int r = buffer[++bufferCounter];
                 if(r == 1)
                 {
                     one_arg = true;
                 }
-                else
-                {
-                    stringBuilder.append("(");
-                }
-                a1 = print_in_div(buffer, ++bufferCounter);
-                stringBuilder.append(")");
+                current_tree.left = new Tree("");
+                a1 = print_in_div(buffer, ++bufferCounter, current_tree.left);
                 break;
             case SIMPLE_STATEMENT:
-                stringBuilder.append("SIMPLE_STATEMENT(");
-                a1 = print_in_div(buffer, ++bufferCounter);
+                current_tree.data = "SIMPLE_STATEMENT";
+                current_tree.left = new Tree("");
+                a1 = print_in_div(buffer, ++bufferCounter, current_tree.left);
                 one_arg = true;
-                stringBuilder.append(")");
                 break;
         }
         if (one_arg)
@@ -202,8 +219,8 @@ public class TinyGP {
             return( a1);
         }
 
-        a2 = print_in_div( buffer, a1 );
-        stringBuilder.append( ")");
+        current_tree.right = new Tree("");
+        a2 = print_in_div( buffer, a1, current_tree.right );
         return( a2);
     }
 
@@ -227,7 +244,9 @@ public class TinyGP {
                 "\nBest Individual: \n");
 
         stringBuilder = new StringBuilder();
-        print_in_div( pop[best], 0 );
+        tree.left = new Tree("");
+        print_in_div( pop[best], 0, tree.left);
+        tree.print();
         System.out.print(stringBuilder.toString() + "\n");
         System.out.flush();
     }
