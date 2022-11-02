@@ -1,4 +1,4 @@
-// Generated from C:/Users/Pawel/IdeaProjects/GPProject/src/main/antlr4/gp/project\Grammar.g4 by ANTLR 4.9.2
+// Generated from D:/source.agh/GPProject/src/main/antlr4/gp/project\Grammar.g4 by ANTLR 4.10.1
 package gp.project.gen;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -18,12 +18,12 @@ public interface GrammarListener extends ParseTreeListener {
 	 */
 	void exitProgram(GrammarParser.ProgramContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link GrammarParser#statement()}.
+	 * Enter a parse tree produced by {@link GrammarParser#statement}.
 	 * @param ctx the parse tree
 	 */
 	void enterStatement(GrammarParser.StatementContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link GrammarParser#statement()}.
+	 * Exit a parse tree produced by {@link GrammarParser#statement}.
 	 * @param ctx the parse tree
 	 */
 	void exitStatement(GrammarParser.StatementContext ctx);
@@ -88,22 +88,22 @@ public interface GrammarListener extends ParseTreeListener {
 	 */
 	void exitIteration_statement(GrammarParser.Iteration_statementContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link GrammarParser#expression()}.
+	 * Enter a parse tree produced by {@link GrammarParser#expression}.
 	 * @param ctx the parse tree
 	 */
 	void enterExpression(GrammarParser.ExpressionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link GrammarParser#expression()}.
+	 * Exit a parse tree produced by {@link GrammarParser#expression}.
 	 * @param ctx the parse tree
 	 */
 	void exitExpression(GrammarParser.ExpressionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link GrammarParser#equation()}.
+	 * Enter a parse tree produced by {@link GrammarParser#equation}.
 	 * @param ctx the parse tree
 	 */
 	void enterEquation(GrammarParser.EquationContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link GrammarParser#equation()}.
+	 * Exit a parse tree produced by {@link GrammarParser#equation}.
 	 * @param ctx the parse tree
 	 */
 	void exitEquation(GrammarParser.EquationContext ctx);

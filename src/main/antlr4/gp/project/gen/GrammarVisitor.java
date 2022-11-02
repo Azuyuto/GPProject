@@ -1,4 +1,4 @@
-// Generated from C:/Users/Pawel/IdeaProjects/GPProject/src/main/antlr4/gp/project\Grammar.g4 by ANTLR 4.9.2
+// Generated from D:/source.agh/GPProject/src/main/antlr4/gp/project\Grammar.g4 by ANTLR 4.10.1
 package gp.project.gen;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -17,7 +17,7 @@ public interface GrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitProgram(GrammarParser.ProgramContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link GrammarParser#statement()}.
+	 * Visit a parse tree produced by {@link GrammarParser#statement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
@@ -59,13 +59,13 @@ public interface GrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitIteration_statement(GrammarParser.Iteration_statementContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link GrammarParser#expression()}.
+	 * Visit a parse tree produced by {@link GrammarParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitExpression(GrammarParser.ExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link GrammarParser#equation()}.
+	 * Visit a parse tree produced by {@link GrammarParser#equation}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */

@@ -6,7 +6,7 @@
         <PerGrammarGenerationSettings>
           <option name="fileName" value="$PROJECT_DIR$/src/main/antlr4/gp/project/Grammar.g4" />
           <option name="autoGen" value="true" />
-          <option name="outputDir" value="C:\Users\Pawel\IdeaProjects\GPProject\src\main\antlr4" />
+          <option name="outputDir" value="\src\main\antlr4" />
           <option name="libDir" value="" />
           <option name="encoding" value="" />
           <option name="pkg" value="gp.project.gen" />
@@ -24,7 +24,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="17" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_16" project-jdk-name="17" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
 </project>
