@@ -18,8 +18,29 @@ public class Tree {
         root.grow();
     }
 
+    public void print()
+    {
+        root.print();
+    }
+
     public int run(List<Integer> inputs) {
         // TODO: NOT NOW!
         return 1;
+    }
+
+    public void addVariable(String variable)
+    {
+        variables.add(variable);
+    }
+
+    public String getRandomVariable() {
+        int variableIndex = Utils.GetRandomNumber(variables.size() + 1);
+        
+        if (variableIndex == variables.size()) 
+        {
+            addVariable("X" + variableIndex);
+        }
+
+        return variables.get(variableIndex);
     }
 }
