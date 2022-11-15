@@ -1,24 +1,25 @@
 package gp.project;
 
-import java.util.ArrayList;
-import java.util.List;
+import gp.project.nodes.InitNode;
+import gp.project.utils.Utils;
+import lombok.Data;
 
+import java.util.*;
+
+@Data
 public class Tree {
-    String data = null;
-    Tree left = null;
-    Tree right = null;
+    private List<String> variables = new ArrayList<>();
+    private InitNode root = new InitNode(this);
+    private int nodesCount = 1;
 
-    Tree(String data) {this.data = data;}
+    public Tree() {}
 
-    public void print() {
-        print("", this, false);
+    public void grow() {
+        root.grow();
     }
 
-    public void print(String prefix, Tree n, boolean isLeft) {
-        if (n != null) {
-            System.out.println (prefix + (isLeft ? "|-- " : "\\-- ") + n.data);
-            print(prefix + (isLeft ? "|   " : "    "), n.left, true);
-            print(prefix + (isLeft ? "|   " : "    "), n.right, false);
-        }
+    public int run(List<Integer> inputs) {
+        // TODO: NOT NOW!
+        return 1;
     }
 }
