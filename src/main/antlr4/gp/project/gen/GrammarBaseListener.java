@@ -40,13 +40,13 @@ public class GrammarBaseListener implements GrammarListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterSimple_statement(GrammarParser.Simple_statementContext ctx) { }
+	@Override public void enterSingle_statement(GrammarParser.Single_statementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitSimple_statement(GrammarParser.Simple_statementContext ctx) { }
+	@Override public void exitSingle_statement(GrammarParser.Single_statementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -71,18 +71,6 @@ public class GrammarBaseListener implements GrammarListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitIo_functions(GrammarParser.Io_functionsContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterBlock_statement(GrammarParser.Block_statementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitBlock_statement(GrammarParser.Block_statementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

@@ -7,13 +7,12 @@ program
     :   PROGRAM LEFT_BRACE statement RIGHT_BRACE EOF ;
 
 statement
-    :   statement simple_statement
-    |   simple_statement ;
+    :   statement single_statement
+    |   single_statement ;
 
-simple_statement
+single_statement
     :   (variable_declaration SEMI)
     |   (io_functions SEMI)
-    |   block_statement
     |   conditional_statement
     |   iteration_statement ;
 
@@ -21,11 +20,8 @@ variable_declaration
     :   ID ASSIGN equation ;
 
 io_functions
-    :   IN '()'
-    |   OUT LEFT_PAREN factor RIGHT_PAREN ;
-
-block_statement
-    :   LEFT_BRACE statement RIGHT_BRACE ;
+    :   ID ASSIGN IN
+    |   OUT ASSIGN factor ;
 
 conditional_statement
     :   IF LEFT_PAREN expression RIGHT_PAREN LEFT_BRACE statement RIGHT_BRACE (ELSE (LEFT_BRACE statement RIGHT_BRACE | conditional_statement))? ;
@@ -36,6 +32,7 @@ iteration_statement
 expression
     :   expression (OR | AND) expression
     |   expression (GREATER_THEN | LESS_THEN) expression
+    |   expression (GREATER_EQUAL_THEN | LESS_EQUAL_THEN) expression
     |   expression (EQUAL | NOT_EQUAL) expression
     |   LEFT_PAREN expression RIGHT_PAREN
     |   NOT expression
@@ -55,15 +52,15 @@ factor
 /*
  * Lexer Rules
  */
-fragment DIGIT    : [0-9] ;
+fragment DIGIT    : [0-9]    ;
 fragment LETTER   : [a-zA-Z] ;
 
-IF              : 'if' ;
-ELSE            : 'else' ;
-WHILE           : 'while' ;
-IN              : 'in' ;
-OUT             : 'out' ;
-PROGRAM         : 'program' ;
+IF              : 'if'      ;
+ELSE            : 'else'    ;
+FOR             : 'for'     ;
+IN              : 'in'      ;
+OUT             : 'out'     ;
+INIT            : 'init'    ;
 
 SEMI            : ';';
 
@@ -78,16 +75,18 @@ TIMES           : '*' ;
 DIV             : '/' ;
 ASSIGN          : '=' ;
 
-GREATER_THEN    : '>' ;
-LESS_THEN       : '<' ;
-AND             : '&&' ;
-OR              : '||' ;
-NOT             : '!' ;
-EQUAL           : '==' ;
-NOT_EQUAL       : '!=' ;
+GREATER_THEN        : '>'  ;
+GREATER_EQUAL_THEN  : '>=' ;
+LESS_THEN           : '<'  ;
+LESS_EQUAL_THEN     : '<=' ;
+AND                 : '&&' ;
+OR                  : '||' ;
+NOT                 : '!'  ;
+EQUAL               : '==' ;
+NOT_EQUAL           : '!=' ;
 
-ID              : LETTER (LETTER | DIGIT)* ;
-INT             : DIGIT+ ;
+ID              : LETTER (LETTER | DIGIT)*  ;
+INT             : DIGIT+                    ;
 
-WHITESPACE      : (' ' | '\t') -> skip ;
-NEWLINE         : ('\r'? '\n' | '\r')+ -> skip ;
+WHITESPACE      : (' ' | '\t') -> skip          ;
+NEWLINE         : ('\r'? '\n' | '\r')+ -> skip  ;

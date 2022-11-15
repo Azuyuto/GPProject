@@ -28,15 +28,15 @@ public interface GrammarListener extends ParseTreeListener {
 	 */
 	void exitStatement(GrammarParser.StatementContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link GrammarParser#simple_statement}.
+	 * Enter a parse tree produced by {@link GrammarParser#single_statement}.
 	 * @param ctx the parse tree
 	 */
-	void enterSimple_statement(GrammarParser.Simple_statementContext ctx);
+	void enterSingle_statement(GrammarParser.Single_statementContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link GrammarParser#simple_statement}.
+	 * Exit a parse tree produced by {@link GrammarParser#single_statement}.
 	 * @param ctx the parse tree
 	 */
-	void exitSimple_statement(GrammarParser.Simple_statementContext ctx);
+	void exitSingle_statement(GrammarParser.Single_statementContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link GrammarParser#variable_declaration}.
 	 * @param ctx the parse tree
@@ -57,16 +57,6 @@ public interface GrammarListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitIo_functions(GrammarParser.Io_functionsContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link GrammarParser#block_statement}.
-	 * @param ctx the parse tree
-	 */
-	void enterBlock_statement(GrammarParser.Block_statementContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link GrammarParser#block_statement}.
-	 * @param ctx the parse tree
-	 */
-	void exitBlock_statement(GrammarParser.Block_statementContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link GrammarParser#conditional_statement}.
 	 * @param ctx the parse tree
