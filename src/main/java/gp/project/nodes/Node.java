@@ -35,9 +35,13 @@ public abstract class Node {
 
     public void print() {
         log.setLevel(Level.ALL);
-        String name = getType() == NodeType.ID ? getName() : getType() == NodeType.INT ? "(" + getValue() + ")" : getType().name();
-        log.info(getPrettyString() + name);
+        log.info(getPrettyString() + getLogName());
         children.forEach(Node::print);
+    }
+
+    public String getLogName()
+    {
+        return getType() == NodeType.ID ? getName() : getType() == NodeType.INT ? "(" + getValue() + ")" : getType().name();
     }
 
     public void grow() {

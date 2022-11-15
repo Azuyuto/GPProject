@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 public class Utils {
-    public static Integer MAX_DEPTH = 3;
+    public static Integer MAX_DEPTH = 5;
 
     public static List<Integer> declarationNumbers = new ArrayList<>();
 

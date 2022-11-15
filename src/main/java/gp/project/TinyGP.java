@@ -1,5 +1,6 @@
 package gp.project;
 
+import gp.project.utils.MyJTree;
 import gp.project.utils.Utils;
 
 import java.util.ArrayList;
@@ -82,7 +83,8 @@ public class TinyGP {
             }
         }
 
+        MyJTree.ShowTree(new ArrayList<>(population));
         System.out.print("PROBLEM ? SOLVED\n");
-        System.exit(1);
+        //System.exit(1);
     }
 }
