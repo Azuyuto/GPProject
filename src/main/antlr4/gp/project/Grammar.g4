@@ -3,8 +3,8 @@ grammar Grammar;
 /*
  * Parser Rules
  */
-program
-    :   PROGRAM LEFT_BRACE statement RIGHT_BRACE EOF ;
+init
+    :   INIT LEFT_BRACE statement RIGHT_BRACE EOF ;
 
 statement
     :   statement single_statement
@@ -27,7 +27,7 @@ conditional_statement
     :   IF LEFT_PAREN expression RIGHT_PAREN LEFT_BRACE statement RIGHT_BRACE (ELSE (LEFT_BRACE statement RIGHT_BRACE | conditional_statement))? ;
 
 iteration_statement
-    :   WHILE LEFT_PAREN expression RIGHT_PAREN LEFT_BRACE statement RIGHT_BRACE ;
+    :   FOR LEFT_PAREN variable_declaration SEMI expression SEMI variable_declaration RIGHT_PAREN LEFT_BRACE statement RIGHT_BRACE ;
 
 expression
     :   expression (OR | AND) expression
