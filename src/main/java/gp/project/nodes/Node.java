@@ -92,4 +92,11 @@ public abstract class Node {
         BasicStatementNode aNode = new BasicStatementNode(tree, NodeType.ASSIGN, depth + 1);
         children.add(aNode);
     }
+
+    public void clearChildren() {
+        children.clear();
+    }
+    public void mutate() {
+
+    }
 }

@@ -28,4 +28,12 @@ public class ExpressionNode extends Node {
             addNodeByStatementType(StatementType.FACTORS);
         }
     }
+
+    @Override
+    public void mutate() {
+        clearChildren();
+        NodeType type = NodeType.getRandomNodeTypeByStatementType(StatementType.EXPRESSIONS);
+        this.setType(type);
+        grow();
+    }
 }

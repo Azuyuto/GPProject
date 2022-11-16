@@ -22,4 +22,16 @@ public class InitNode extends Node {
             grow();
         }
     }
+
+    @Override
+    public void mutate() {
+        int rand = Utils.GetRandomNumber(this.getTree().getNumberOfNodes());
+        if (rand == 0) {
+            clearChildren();
+            grow();
+        } else {
+            Node nodeToMutate = this.getTree().getNodeByNumber(rand);
+            nodeToMutate.mutate();
+        }
+    }
 }

@@ -1,6 +1,7 @@
 package gp.project;
 
 import gp.project.nodes.InitNode;
+import gp.project.nodes.Node;
 import gp.project.utils.Utils;
 import lombok.Data;
 
@@ -42,5 +43,21 @@ public class Tree {
         }
 
         return variables.get(variableIndex);
+    }
+
+    public void numerateNodes() {
+        int i = 0;
+        root.setNumber(i++);
+        for (Node child : root.getChildren()) {
+            child.setNumber(i++);
+        }
+    }
+
+    public int getNumberOfNodes() {
+        return root.getChildren().size() + 1;
+    }
+
+    public Node getNodeByNumber(int number) {
+        return number == 0 ? root : root.getChildren().stream().filter(c -> c.getNumber() == number).findFirst().orElseThrow(IllegalStateException::new);
     }
 }

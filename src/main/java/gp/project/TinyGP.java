@@ -80,6 +80,9 @@ public class TinyGP {
         for (int gen = 1; gen < GENERATIONS; gen++) {
             for (int i = 0; i < POPULATION_SIZE; i++) {
                 // TODO: add example mutation and crossover
+//                population.get(i).numerateNodes();
+//                population.get(i).getRoot().mutate();
+
             }
         }
 
