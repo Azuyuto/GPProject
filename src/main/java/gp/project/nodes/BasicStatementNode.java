@@ -52,6 +52,7 @@ public class BasicStatementNode extends Node {
 
     @Override
     public void mutate() {
+        super.mutate();
         clearChildren();
         NodeType type = NodeType.getRandomNodeTypeByStatementType(StatementType.BASIC_STATEMENTS);
         this.setType(type);

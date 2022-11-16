@@ -11,7 +11,7 @@ public class TinyGP {
     double[] fitness;
 
     final int
-            POPULATION_SIZE = 2,
+            POPULATION_SIZE = 1,
             GENERATIONS = 2,
             TOURNAMENT_SIZE = 2,
             RANDOM_COUNT = 4,
@@ -71,7 +71,6 @@ public class TinyGP {
     Tree createRandomTree() {
         Tree tree = new Tree();
         tree.grow();
-        tree.print();
 
         return tree;
     }
@@ -80,16 +79,17 @@ public class TinyGP {
         for (int gen = 1; gen < GENERATIONS; gen++) {
             for (int i = 0; i < POPULATION_SIZE; i++) {
                 //TODO: add example mutation and crossover
-
+                population.get(0).print();
             }
         }
         MyJTree.ShowTree(new ArrayList<>(population));
 
         System.out.println("-----------------------------------------------------------------------------------");
-        population.get(0).mutate();
-        population.get(0).print();
 
-        MyJTree.ShowTree(new ArrayList<>(population));
+        Tree mutateTree = population.get(0).mutate();
+        mutateTree.print();
+        MyJTree.ShowTree(new ArrayList<>(){{add(mutateTree);}});
+
         System.out.print("PROBLEM ? SOLVED\n");
         //System.exit(1);
     }

@@ -20,6 +20,7 @@ public abstract class Node {
     private int depth;
     private int number;
     private List<Node> children = new ArrayList<>();
+    private boolean isMutated;
 
     private final static Logger log = LogManager.getLogger(Node.class);
 
@@ -29,8 +30,20 @@ public abstract class Node {
         this.depth = depth;
     }
 
+    public Node(Node another)
+    {
+        this.tree = another.tree;
+        this.type = another.type;
+        this.name = another.name;
+        this.value = another.value;
+        this.depth = another.depth;
+        this.number = another.number;
+        this.children = another.children;
+        this.isMutated = another.isMutated;
+    }
+
     public String toString() {
-        return type.toString();
+        return getLogName();
     }
 
     public void print() {
@@ -41,7 +54,7 @@ public abstract class Node {
 
     public String getLogName()
     {
-        return getType() == NodeType.ID ? getName() : getType() == NodeType.INT ? "(" + getValue() + ")" : getType().name();
+        return getType() == NodeType.ID ? getName() : getType() == NodeType.INT ? "(" + getValue() + ")" : getType().GetName();
     }
 
     public void grow() {
@@ -97,6 +110,10 @@ public abstract class Node {
         children.clear();
     }
     public void mutate() {
-
+        isMutated = true;
     }
+
+//    public Node crossover() {
+//
+//    }
 }

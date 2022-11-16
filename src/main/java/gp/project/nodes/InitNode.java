@@ -5,7 +5,9 @@ import gp.project.enums.NodeType;
 import gp.project.enums.StatementType;
 import gp.project.utils.Utils;
 
-public class InitNode extends Node {
+import java.io.Serializable;
+
+public class InitNode extends Node implements Serializable {
 
     public InitNode(Tree tree) {
         super(tree, NodeType.INIT, 0);
@@ -27,6 +29,7 @@ public class InitNode extends Node {
     public void mutate() {
         int rand = Utils.GetRandomNumber(this.getTree().getNumberOfNodes());
         if (rand == 0) {
+
             clearChildren();
             grow();
         } else {

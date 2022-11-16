@@ -31,6 +31,7 @@ public class ExpressionNode extends Node {
 
     @Override
     public void mutate() {
+        super.mutate();
         clearChildren();
         NodeType type = NodeType.getRandomNodeTypeByStatementType(StatementType.EXPRESSIONS);
         this.setType(type);

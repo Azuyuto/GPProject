@@ -6,7 +6,7 @@ import gp.project.enums.StatementType;
 import gp.project.utils.Utils;
 
 public class FactorNode extends Node {
-    FactorNode(Tree tree, NodeType type, int depth) {
+    public FactorNode(Tree tree, NodeType type, int depth) {
         super(tree, type, depth);
 
         if (type == NodeType.ID)
@@ -21,6 +21,7 @@ public class FactorNode extends Node {
 
     @Override
     public void mutate() {
+        super.mutate();
         NodeType type = NodeType.getRandomNodeTypeByStatementType(StatementType.FACTORS);
         this.setType(type);
         if (type == NodeType.ID) {

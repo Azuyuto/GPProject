@@ -16,13 +16,13 @@ public class GrammarBaseListener implements GrammarListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterProgram(GrammarParser.ProgramContext ctx) { }
+	@Override public void enterInit(GrammarParser.InitContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitProgram(GrammarParser.ProgramContext ctx) { }
+	@Override public void exitInit(GrammarParser.InitContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

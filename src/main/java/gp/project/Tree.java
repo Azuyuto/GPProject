@@ -3,17 +3,24 @@ package gp.project;
 import gp.project.nodes.InitNode;
 import gp.project.nodes.Node;
 import gp.project.utils.Utils;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.apache.commons.lang3.SerializationUtils;
 
+import java.io.Serializable;
 import java.util.*;
 
 @Data
-public class Tree {
+@AllArgsConstructor
+public class Tree implements Serializable  {
     private List<String> variables = new ArrayList<>();
     private InitNode root = new InitNode(this);
-    private int nodesCount = 1;
 
     public Tree() {}
+
+    public Tree(Tree that) {
+        this(that.getVariables(), that.getRoot());
+    }
 
     public void grow() {
         root.grow();
@@ -45,9 +52,12 @@ public class Tree {
         return variables.get(variableIndex);
     }
 
-    public void mutate() {
-        numerateNodes();
-        getRoot().mutate();
+    public Tree mutate() {
+        Tree tree = new Tree(this);
+        tree.numerateNodes();
+        tree.getRoot().mutate();
+
+        return tree;
     }
 
     public void numerateNodes() {

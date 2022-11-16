@@ -35,6 +35,11 @@ public enum NodeType {
         this.value = i;
     }
 
+    public String GetName()
+    {
+        return name;
+    }
+
     public static NodeType getRandomNodeTypeByStatementType(StatementType statementType)
     {
         switch (statementType)

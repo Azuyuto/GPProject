@@ -1,6 +1,8 @@
 package gp.project.utils;
 
 import gp.project.Tree;
+import gp.project.enums.NodeType;
+import gp.project.nodes.FactorNode;
 import gp.project.nodes.Node;
 
 import javax.swing.*;
@@ -10,14 +12,18 @@ import java.util.ArrayList;
 
 public class MyJTree {
     JFrame f;
+//    MyTreeCellRenderer cellRenderer = new MyTreeCellRenderer();
     MyJTree(ArrayList<Tree> trees)
     {
         f=new JFrame();
-        DefaultMutableTreeNode myPrograms = new DefaultMutableTreeNode("My Programs");
+        Node program = new FactorNode(new Tree(), NodeType.ID, 0);
+        program.setName("My Programs");
+        DefaultMutableTreeNode myPrograms = new DefaultMutableTreeNode(program);
         trees.forEach(tree -> {
             myPrograms.add(GenerateTreeNode(tree));
         });
         JTree jt=new JTree(myPrograms);
+        jt.setCellRenderer(new MyTreeCellRenderer());
         final Font currentFont = jt.getFont();
         final Font bigFont = new Font(currentFont.getName(), currentFont.getStyle(), currentFont.getSize() + 12);
         jt.setFont(bigFont);
@@ -33,7 +39,7 @@ public class MyJTree {
 
     public DefaultMutableTreeNode GenerateInit(Node node)
     {
-        DefaultMutableTreeNode treeNode = new DefaultMutableTreeNode(node.getLogName());
+        DefaultMutableTreeNode treeNode = new DefaultMutableTreeNode(node);
         node.getChildren().forEach(childNode -> {
             treeNode.add(GenerateInit(childNode));
         });
