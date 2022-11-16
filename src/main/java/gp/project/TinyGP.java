@@ -79,12 +79,15 @@ public class TinyGP {
     void evolve() {
         for (int gen = 1; gen < GENERATIONS; gen++) {
             for (int i = 0; i < POPULATION_SIZE; i++) {
-                // TODO: add example mutation and crossover
-//                population.get(i).numerateNodes();
-//                population.get(i).getRoot().mutate();
+                //TODO: add example mutation and crossover
 
             }
         }
+        MyJTree.ShowTree(new ArrayList<>(population));
+
+        System.out.println("-----------------------------------------------------------------------------------");
+        population.get(0).mutate();
+        population.get(0).print();
 
         MyJTree.ShowTree(new ArrayList<>(population));
         System.out.print("PROBLEM ? SOLVED\n");
