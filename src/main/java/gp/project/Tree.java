@@ -45,6 +45,11 @@ public class Tree {
         return variables.get(variableIndex);
     }
 
+    public void mutate() {
+        numerateNodes();
+        getRoot().mutate();
+    }
+
     public void numerateNodes() {
         int i = 0;
         root.setNumber(i++);
