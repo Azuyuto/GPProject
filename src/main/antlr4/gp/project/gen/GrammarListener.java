@@ -1,4 +1,4 @@
-// Generated from D:/source.agh/GPProject/src/main/antlr4/gp/project\Grammar.g4 by ANTLR 4.10.1
+// Generated from C:/Users/User/IdeaProjects/MyGPProject/src/main/antlr4/gp/project\Grammar.g4 by ANTLR 4.10.1
 package gp.project.gen;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -57,6 +57,16 @@ public interface GrammarListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitIo_functions(GrammarParser.Io_functionsContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link GrammarParser#block_statement}.
+	 * @param ctx the parse tree
+	 */
+	void enterBlock_statement(GrammarParser.Block_statementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link GrammarParser#block_statement}.
+	 * @param ctx the parse tree
+	 */
+	void exitBlock_statement(GrammarParser.Block_statementContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link GrammarParser#conditional_statement}.
 	 * @param ctx the parse tree

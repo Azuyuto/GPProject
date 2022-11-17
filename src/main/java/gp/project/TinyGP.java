@@ -94,13 +94,13 @@ public class TinyGP {
         System.out.println("-----------------------------------------------------------------------------------");
 
         // # MUTATE 1
-        Tree treeToMutate = new Tree(population.get(0));
-        treeToMutate.mutate();
-        treeToMutate.print();
-        MyJTree.ShowTree(new ArrayList<>(){{add(treeToMutate);}});
+        //Tree treeToMutate = new Tree(population.get(0));
+        //treeToMutate.mutate();
+        //treeToMutate.print();
+        //MyJTree.ShowTree(new ArrayList<>(){{add(treeToMutate);}});
 
         // # MUTATE 2 WITH SERIALIZATION
-        Tree copy = SerializationUtils.clone(treeToMutate);
+        Tree copy = SerializationUtils.clone(population.get(0));
         copy.mutate();
         copy.print();
         MyJTree.ShowTree(new ArrayList<>(){{add(copy);}});

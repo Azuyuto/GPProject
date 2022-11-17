@@ -25,13 +25,13 @@ io_functions
     |   OUT ASSIGN factor ;
 
 block_statement
-    :   statement ;
+    :   LEFT_BRACE statement RIGHT_BRACE ;
 
 conditional_statement
-    :   IF LEFT_PAREN expression RIGHT_PAREN LEFT_BRACE statement RIGHT_BRACE (ELSE (LEFT_BRACE statement RIGHT_BRACE | conditional_statement))? ;
+    :   IF LEFT_PAREN expression RIGHT_PAREN block_statement (ELSE (block_statement | conditional_statement))? ;
 
 iteration_statement
-    :   FOR LEFT_PAREN variable_declaration SEMI expression SEMI variable_declaration RIGHT_PAREN LEFT_BRACE statement RIGHT_BRACE ;
+    :   FOR LEFT_PAREN variable_declaration SEMI expression SEMI variable_declaration RIGHT_PAREN block_statement ;
 
 expression
     :   expression (OR | AND) expression

@@ -1,4 +1,4 @@
-// Generated from D:/source.agh/GPProject/src/main/antlr4/gp/project\Grammar.g4 by ANTLR 4.10.1
+// Generated from C:/Users/User/IdeaProjects/MyGPProject/src/main/antlr4/gp/project\Grammar.g4 by ANTLR 4.10.1
 package gp.project.gen;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -40,6 +40,12 @@ public interface GrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitIo_functions(GrammarParser.Io_functionsContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link GrammarParser#block_statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBlock_statement(GrammarParser.Block_statementContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link GrammarParser#conditional_statement}.
 	 * @param ctx the parse tree
