@@ -5,9 +5,16 @@ import gp.project.enums.NodeType;
 import gp.project.enums.StatementType;
 import gp.project.utils.Utils;
 
-public class BasicStatementNode extends Node {
+import java.io.Serializable;
+
+public class BasicStatementNode extends Node implements Serializable {
     BasicStatementNode(Tree tree, NodeType type, int depth) {
         super(tree, type, depth);
+    }
+
+    public BasicStatementNode(Node another)
+    {
+        super(another);
     }
 
     public void grow()

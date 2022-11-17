@@ -5,7 +5,9 @@ import gp.project.enums.NodeType;
 import gp.project.enums.StatementType;
 import gp.project.utils.Utils;
 
-public class FactorNode extends Node {
+import java.io.Serializable;
+
+public class FactorNode extends Node implements Serializable {
     public FactorNode(Tree tree, NodeType type, int depth) {
         super(tree, type, depth);
 
@@ -17,6 +19,11 @@ public class FactorNode extends Node {
         {
             this.setValue(Utils.GetRandomDeclarationNumbers());
         }
+    }
+
+    public FactorNode(Node another)
+    {
+        super(another);
     }
 
     @Override

@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Random;
 
 public class Utils {
+    public  static Integer countNodes = 0;
+
     public static Integer MAX_DEPTH = 5;
 
     public static List<Integer> declarationNumbers = new ArrayList<>();

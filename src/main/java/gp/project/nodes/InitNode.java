@@ -13,6 +13,11 @@ public class InitNode extends Node implements Serializable {
         super(tree, NodeType.INIT, 0);
     }
 
+    public InitNode(InitNode another)
+    {
+        super(another);
+    }
+
     public void grow()
     {
         BasicStatementNode node = (BasicStatementNode)addNodeByStatementType(StatementType.BASIC_STATEMENTS);
@@ -27,14 +32,8 @@ public class InitNode extends Node implements Serializable {
 
     @Override
     public void mutate() {
-        int rand = Utils.GetRandomNumber(this.getTree().getNumberOfNodes());
-        if (rand == 0) {
-
-            clearChildren();
-            grow();
-        } else {
-            Node nodeToMutate = this.getTree().getNodeByNumber(rand);
-            nodeToMutate.mutate();
-        }
+        super.mutate();
+        clearChildren();
+        grow();
     }
 }

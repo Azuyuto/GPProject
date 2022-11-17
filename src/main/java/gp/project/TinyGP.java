@@ -2,8 +2,15 @@ package gp.project;
 
 import gp.project.utils.MyJTree;
 import gp.project.utils.Utils;
+import org.apache.commons.lang3.SerializationUtils;
+import org.apache.commons.io.FileUtils;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class TinyGP {
@@ -86,9 +93,27 @@ public class TinyGP {
 
         System.out.println("-----------------------------------------------------------------------------------");
 
-        Tree mutateTree = population.get(0).mutate();
-        mutateTree.print();
-        MyJTree.ShowTree(new ArrayList<>(){{add(mutateTree);}});
+        // # MUTATE 1
+        Tree treeToMutate = new Tree(population.get(0));
+        treeToMutate.mutate();
+        treeToMutate.print();
+        MyJTree.ShowTree(new ArrayList<>(){{add(treeToMutate);}});
+
+        // # MUTATE 2 WITH SERIALIZATION
+        Tree copy = SerializationUtils.clone(treeToMutate);
+        copy.mutate();
+        copy.print();
+        MyJTree.ShowTree(new ArrayList<>(){{add(copy);}});
+
+        String fileName = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(new Date());
+        File file = new File(fileName);
+        try {
+            if (!file.exists()) {
+                FileUtils.writeByteArrayToFile(file, SerializationUtils.serialize(copy));
+            }
+        } catch (IOException ignore) {
+
+        }
 
         System.out.print("PROBLEM ? SOLVED\n");
         //System.exit(1);

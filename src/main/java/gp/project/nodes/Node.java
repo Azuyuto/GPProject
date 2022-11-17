@@ -6,13 +6,15 @@ import lombok.Data;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+
+import java.io.Serializable;
 import java.util.*;
 
 import gp.project.enums.NodeType;
 import gp.project.Tree;
 
 @Data
-public abstract class Node {
+public abstract class Node implements Serializable {
     private Tree tree;
     private NodeType type;
     private String name;
@@ -38,7 +40,24 @@ public abstract class Node {
         this.value = another.value;
         this.depth = another.depth;
         this.number = another.number;
-        this.children = another.children;
+        for(Node child : another.children)
+        {
+            switch(child.type) {
+                case IN:
+                case OUT:
+                case IF:
+                case FOR:
+                case ASSIGN:
+                    this.children.add(new BasicStatementNode(child));
+                    break;
+                case ID:
+                case INT:
+                    this.children.add(new FactorNode(child));
+                    break;
+                default:
+                    this.children.add(new ExpressionNode(child));
+            }
+        }
         this.isMutated = another.isMutated;
     }
 
@@ -111,6 +130,31 @@ public abstract class Node {
     }
     public void mutate() {
         isMutated = true;
+    }
+
+    public void numerateNodes() {
+        this.number = (Utils.countNodes++);
+        for (Node child : children) {
+            child.numerateNodes();
+        }
+    }
+
+    public Node getNodeByNumber(int number) {
+        if (this.number == number){
+            return this;
+        }
+        else {
+            for(Node child: children)
+            {
+                Node node = child.getNodeByNumber(number);
+                if(node != null)
+                {
+                    return node;
+                }
+            }
+        }
+
+        return null;
     }
 
 //    public Node crossover() {

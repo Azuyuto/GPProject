@@ -13,6 +13,7 @@ statement
 single_statement
     :   (variable_declaration SEMI)
     |   (io_functions SEMI)
+    |   block_statement
     |   conditional_statement
     |   iteration_statement ;
 
@@ -22,6 +23,9 @@ variable_declaration
 io_functions
     :   ID ASSIGN IN
     |   OUT ASSIGN factor ;
+
+block_statement
+    :   statement ;
 
 conditional_statement
     :   IF LEFT_PAREN expression RIGHT_PAREN LEFT_BRACE statement RIGHT_BRACE (ELSE (LEFT_BRACE statement RIGHT_BRACE | conditional_statement))? ;
