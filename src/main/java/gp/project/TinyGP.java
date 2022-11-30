@@ -4,13 +4,7 @@ import gp.project.utils.MyJTree;
 import gp.project.utils.Utils;
 import org.apache.commons.lang3.SerializationUtils;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class TinyGP {
@@ -105,21 +99,24 @@ public class TinyGP {
         copy.print();
         MyJTree.ShowTree(new ArrayList<>(){{add(copy);}});
 
-        String fileName = new SimpleDateFormat("yyyyMMddHHmm'.txt'").format(new Date());
-        try {
-            FileOutputStream fos = new FileOutputStream(fileName);
-            SerializationUtils.serialize(copy, fos);
-            fos.close();
-
-            FileInputStream fis = new FileInputStream(fileName);
-
-            Tree desTree = (Tree) SerializationUtils.deserialize(fis);
-            System.out.println("-------------DESERIALIZED--------------------");
-            desTree.print();
-            fis.close();
-        } catch (IOException ignore) {
-
-        }
+        Serializer serializer = new Serializer();
+        Tree desTree = serializer.deserialize("202211301843.txt");
+        MyJTree.ShowTree(new ArrayList<>(){{add(desTree);}});
+//        String fileName = new SimpleDateFormat("yyyyMMddHHmm'.txt'").format(new Date());
+//        try {
+//            FileOutputStream fos = new FileOutputStream(fileName);
+//            SerializationUtils.serialize(copy, fos);
+//            fos.close();
+//
+//            FileInputStream fis = new FileInputStream(fileName);
+//
+//            Tree desTree = (Tree) SerializationUtils.deserialize(fis);
+//            System.out.println("-------------DESERIALIZED--------------------");
+//            desTree.print();
+//            fis.close();
+//        } catch (IOException ignore) {
+//
+//        }
 
         System.out.print("PROBLEM ? SOLVED\n");
         //System.exit(1);
