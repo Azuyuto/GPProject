@@ -1,12 +1,13 @@
 package gp.project.enums;
 
 public enum StatementType {
-    SINGLE_STATEMENTS(0),
-    BASIC_STATEMENTS(1),
-    IO_FUNCTIONS(2),
-    EXPRESSIONS(3),
-    EQUATIONS(4),
-    FACTORS(5);
+    BLOCK_STATEMENTS(0),
+    SINGLE_STATEMENTS(1),
+    BASIC_STATEMENTS(2),
+    IO_FUNCTIONS(3),
+    EXPRESSIONS(4),
+    EQUATIONS(5),
+    FACTORS(6);
 
     int number;
 

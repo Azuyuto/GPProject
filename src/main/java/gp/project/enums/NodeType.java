@@ -6,26 +6,27 @@ import java.util.Arrays;
 
 public enum NodeType {
     INIT("init", 0),
-    IN("in", 1),
-    OUT("out", 2),
-    ASSIGN("=", 3),
-    IF("if", 4),
-    FOR("for", 5),
-    PLUS("+", 6),
-    MINUS("-", 7),
-    TIMES("*", 8),
-    DIV("/", 9),
-    GREATER(">", 10),
-    LESS("<", 11),
-    GREATER_EQUAL(">=", 12),
-    LESS_EQUAL("<=", 13),
-    AND("&&", 14),
-    OR("||", 15),
-    NOT("!", 16),
-    EQUAL("==", 17),
-    NOT_EQUAL("!=", 18),
-    ID("id", 19),
-    INT("int", 20);
+    BLOCK_STATEMENT("block statement", 1),
+    IN("in", 2),
+    OUT("out", 3),
+    ASSIGN("=", 4),
+    IF("if", 5),
+    FOR("for", 6),
+    PLUS("+", 7),
+    MINUS("-", 8),
+    TIMES("*", 9),
+    DIV("/", 10),
+    GREATER(">", 11),
+    LESS("<", 12),
+    GREATER_EQUAL(">=", 13),
+    LESS_EQUAL("<=", 14),
+    AND("&&", 15),
+    OR("||", 16),
+    NOT("!", 17),
+    EQUAL("==", 18),
+    NOT_EQUAL("!=", 19),
+    ID("id", 20),
+    INT("int", 21);
 
     String name;
     int value;
@@ -44,6 +45,8 @@ public enum NodeType {
     {
         switch (statementType)
         {
+            case BLOCK_STATEMENTS:
+                return getNodeTypeBetween(BLOCK_STATEMENT, BLOCK_STATEMENT);
             case SINGLE_STATEMENTS:
                 return getNodeTypeBetween(IN, ASSIGN);
             case BASIC_STATEMENTS:

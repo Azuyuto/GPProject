@@ -43,6 +43,9 @@ public abstract class Node implements Serializable {
         for(Node child : another.children)
         {
             switch(child.type) {
+                case BLOCK_STATEMENT:
+                    this.children.add(new BlockStatement(child));
+                    break;
                 case IN:
                 case OUT:
                 case IF:
@@ -93,6 +96,10 @@ public abstract class Node implements Serializable {
         NodeType nodeType = NodeType.getRandomNodeTypeByStatementType(statementType);
 
         switch (statementType) {
+            case BLOCK_STATEMENTS:
+                BlockStatement blNode = new BlockStatement(tree, nodeType, depth + 1);
+                children.add(blNode);
+                return blNode;
             case IO_FUNCTIONS:
             case SINGLE_STATEMENTS:
             case BASIC_STATEMENTS:

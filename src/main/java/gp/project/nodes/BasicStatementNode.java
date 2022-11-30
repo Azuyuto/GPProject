@@ -28,7 +28,7 @@ public class BasicStatementNode extends Node implements Serializable {
                 break;
             case IF:
                 addNodeByStatementType(StatementType.EXPRESSIONS); // X1 < 2
-                addNodeByStatementType(StatementType.BASIC_STATEMENTS);
+                addNodeByStatementType(StatementType.BLOCK_STATEMENTS);
 
                 boolean addElse = Utils.GetRandomNumber(1) == 1;
                 if (addElse)
@@ -41,7 +41,7 @@ public class BasicStatementNode extends Node implements Serializable {
                 addAssignNode(); // int i = 0
                 addNodeByStatementType(StatementType.EXPRESSIONS); // i < 0
                 addAssignNode(); // i = i + 1
-                addNodeByStatementType(StatementType.BASIC_STATEMENTS);
+                addNodeByStatementType(StatementType.BLOCK_STATEMENTS);
 
                 break;
             case ASSIGN:
