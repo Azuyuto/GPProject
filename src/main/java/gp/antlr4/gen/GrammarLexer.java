@@ -1,5 +1,5 @@
 // Generated from C:/Users/User/IdeaProjects/MyGPProject/src/main/antlr4/gp/project\Grammar.g4 by ANTLR 4.10.1
-package gp.project.gen;
+package gp.antlr4.gen;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Token;
