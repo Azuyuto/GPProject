@@ -3,14 +3,19 @@ package gp.antlr4;
 
 import gp.antlr4.gen.GrammarBaseVisitor;
 import gp.antlr4.gen.GrammarParser;
+import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.RuleNode;
 
 import java.util.*;
 
-public class GrammarCustomVisitor<T> extends GrammarBaseVisitor<Integer> {
+public class GrammarCustomVisitor<T> extends GrammarBaseVisitor<Integer>{
 
 	Map<String, Integer> memory;
 	LinkedList<Integer> inputs;
 	List<Integer> outputs;
+
+	private int operationsCounter = 0;
+	private final int MAX_OPERATIONS = 1000;
 
 	public GrammarCustomVisitor(List<Integer> inputs) {
 		this.memory = new HashMap<>();
@@ -20,6 +25,22 @@ public class GrammarCustomVisitor<T> extends GrammarBaseVisitor<Integer> {
 
 	public void printOutputs() {
 		outputs.forEach(System.out::println);
+	}
+
+	@Override
+	public Integer visit(ParseTree tree) {
+		if(operationsCounter++ < MAX_OPERATIONS) {
+			super.visit(tree);
+		}
+		return 0;
+	}
+
+	@Override
+	public Integer visitChildren(RuleNode node) {
+		if(operationsCounter++ < MAX_OPERATIONS) {
+			super.visitChildren(node);
+		}
+		return 0;
 	}
 
 	@Override public Integer visitInit(GrammarParser.InitContext ctx) {
@@ -39,6 +60,7 @@ public class GrammarCustomVisitor<T> extends GrammarBaseVisitor<Integer> {
 		return memory.get(variableName);
 	}
 	@Override public Integer visitIo_functions(GrammarParser.Io_functionsContext ctx) {
+
 		if (ctx.IN() != null) {
 			String variableName = ctx.ID().getText();
 			Integer variableValue = inputs.pop();
