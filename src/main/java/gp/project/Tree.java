@@ -55,10 +55,17 @@ public class Tree implements Serializable  {
     }
 
     public void mutate() {
+        if (Utils.MAX_DEPTH == 1) {
+            return;
+        }
         numerateNodes();
         int rand = Utils.GetRandomNumber(Utils.countNodes);
         Node nodeToMutate = getNodeByNumber(rand);
         nodeToMutate.mutate();
+    }
+
+    public void crossover(Tree tree) {
+        root.crossover(tree.root);
     }
 
     public void numerateNodes() {

@@ -22,6 +22,9 @@ public class InitNode extends Node implements Serializable {
 
     public void grow()
     {
+        if (Utils.MAX_DEPTH == 1) {
+            return;
+        }
         BasicStatementNode node = (BasicStatementNode)addNodeByStatementType(StatementType.BASIC_STATEMENTS);
         node.grow();
 
@@ -34,9 +37,23 @@ public class InitNode extends Node implements Serializable {
 
     @Override
     public void mutate() {
+        if (Utils.MAX_DEPTH == 1) {
+            return;
+        }
         super.mutate();
         clearChildren();
         grow();
+    }
+
+    public void crossover(Node node) {
+        int rand;
+        if (Utils.countNodes <= 1){
+            rand = 0;
+        }
+        else {
+            rand = Utils.rd.nextInt(Utils.countNodes - 1) + 1;
+        }
+        crossoverFurther(node, rand);
     }
 
     @Override

@@ -6,17 +6,20 @@ import org.apache.commons.lang3.SerializationUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+import static gp.project.utils.Utils.rd;
+
 public class TinyGP {
     List<Tree> population = new ArrayList<>();
     double[] fitness;
 
     final int
-            POPULATION_SIZE = 1,
+            POPULATION_SIZE = 2,
             GENERATIONS = 2,
             TOURNAMENT_SIZE = 2,
             RANDOM_COUNT = 4,
             MIN_RANDOM = -5,
-            MAX_RANDOM = 5;
+            MAX_RANDOM = 5,
+            T_SIZE = 2;
 
     final List<List<Integer>> INPUTS = new ArrayList<List<Integer>>() {{
         add(new ArrayList<>() {{
@@ -75,6 +78,34 @@ public class TinyGP {
         return tree;
     }
 
+    int tournament( double [] fitness ) {
+        int best = rd.nextInt(POPULATION_SIZE), i, competitor;
+        double  fitnessBest = -1.0e34;
+
+        for ( i = 0; i < T_SIZE; i ++ ) {
+            competitor = rd.nextInt(POPULATION_SIZE);
+            if ( fitness[competitor] > fitnessBest ) {
+                fitnessBest = fitness[competitor];
+                best = competitor;
+            }
+        }
+        return( best );
+    }
+
+    int negativeTournament(double [] fitness ) {
+        int worst = rd.nextInt(POPULATION_SIZE), i, competitor;
+        double fworst = 1e34;
+
+        for ( i = 0; i < T_SIZE; i ++ ) {
+            competitor = rd.nextInt(POPULATION_SIZE);
+            if ( fitness[competitor] < fworst ) {
+                fworst = fitness[competitor];
+                worst = competitor;
+            }
+        }
+        return( worst );
+    }
+
     void evolve() {
         for (int gen = 1; gen < GENERATIONS; gen++) {
             for (int i = 0; i < POPULATION_SIZE; i++) {
@@ -102,6 +133,9 @@ public class TinyGP {
         //Serializer serializer = new Serializer();
         //Tree desTree = serializer.deserialize("202211301843.txt");
         //MyJTree.ShowTree(new ArrayList<>(){{add(desTree);}});
+//        Serializer serializer = new Serializer();
+//        Tree desTree = serializer.deserialize("202211301843.txt");
+//        MyJTree.ShowTree(new ArrayList<>(){{add(desTree);}});
 //        String fileName = new SimpleDateFormat("yyyyMMddHHmm'.txt'").format(new Date());
 //        try {
 //            FileOutputStream fos = new FileOutputStream(fileName);
