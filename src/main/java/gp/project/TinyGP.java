@@ -13,7 +13,7 @@ public class TinyGP {
     double[] fitness;
 
     final int
-            POPULATION_SIZE = 2,
+            POPULATION_SIZE = 100,
             GENERATIONS = 2,
             TOURNAMENT_SIZE = 2,
             RANDOM_COUNT = 4,
@@ -57,10 +57,11 @@ public class TinyGP {
         int fitness = 0;
 
         for (int i = 0 ; i < OUTPUTS.size() ; i ++) {
-            fitness += Math.abs(OUTPUTS.get(i) - tree.run(INPUTS.get(i)));
+            Integer treeValue = tree.run(INPUTS.get(i));
+            fitness += Math.abs(OUTPUTS.get(i) -treeValue);
         }
 
-        return fitness;
+        return fitness / OUTPUTS.size();
     }
 
     void createRandomPopulation() {

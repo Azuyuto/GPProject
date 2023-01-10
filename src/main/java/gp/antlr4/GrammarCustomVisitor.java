@@ -27,6 +27,10 @@ public class GrammarCustomVisitor<T> extends GrammarBaseVisitor<Integer>{
 		outputs.forEach(System.out::println);
 	}
 
+	public List<Integer> getOutputs(){
+		return outputs;
+	}
+
 	@Override
 	public Integer visit(ParseTree tree) {
 		if(++operationsCounter < MAX_OPERATIONS) {
@@ -63,7 +67,7 @@ public class GrammarCustomVisitor<T> extends GrammarBaseVisitor<Integer>{
 
 		if (ctx.IN() != null) {
 			String variableName = ctx.ID().getText();
-			Integer variableValue = inputs.pop();
+			Integer variableValue = inputs.size() > 0 ? inputs.pop() : 0;
 
 			memory.put(variableName, variableValue);
 		}
@@ -144,7 +148,7 @@ public class GrammarCustomVisitor<T> extends GrammarBaseVisitor<Integer>{
 			return visit(ctx.equation(0)) * visit(ctx.equation(1));
 		}
 		if (ctx.DIV() != null) {
-			return visit(ctx.equation(0)) / visit(ctx.equation(1));
+			return visit(ctx.equation(0)) / (visit(ctx.equation(1)) != 0 ? visit(ctx.equation(1)) : 1);
 		}
 		if (ctx.PLUS(0) != null) {
 			return visit(ctx.equation(0)) + visit(ctx.equation(1));

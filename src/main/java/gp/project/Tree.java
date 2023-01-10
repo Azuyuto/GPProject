@@ -1,10 +1,16 @@
 package gp.project;
 
+import gp.antlr4.GrammarCustomVisitor;
+import gp.antlr4.gen.GrammarLexer;
+import gp.antlr4.gen.GrammarParser;
 import gp.project.nodes.InitNode;
 import gp.project.nodes.Node;
 import gp.project.utils.Utils;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.ParseTree;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -34,8 +40,18 @@ public class Tree implements Serializable  {
     }
 
     public int run(List<Integer> inputs) {
-        // TODO: NOT NOW!
-        return 1;
+        GrammarLexer lexer = new GrammarLexer(CharStreams.fromString(toCode()));
+        CommonTokenStream tokens = new CommonTokenStream(lexer);
+        GrammarParser parser = new GrammarParser(tokens);
+
+        ParseTree tree = parser.init();
+        inputs.add(1);
+        inputs.add(2);
+        GrammarCustomVisitor<Integer> visitor = new GrammarCustomVisitor<>(inputs);
+        visitor.visit(tree);
+        visitor.printOutputs();
+
+        return visitor.getOutputs().size() > 0 ? visitor.getOutputs().get(0) : 1000;
     }
 
     public void addVariable(String variable)
