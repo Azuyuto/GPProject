@@ -1,4 +1,4 @@
-// Generated from C:/Users/User/IdeaProjects/MyGPProject/src/main/antlr4/gp/project\Grammar.g4 by ANTLR 4.10.1
+// Generated from D:/source.agh/GPProject/src/main/java/gp/antlr4\Grammar.g4 by ANTLR 4.10.1
 package gp.antlr4.gen;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;

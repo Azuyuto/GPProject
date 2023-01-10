@@ -15,7 +15,7 @@ public class GrammarCustomVisitor<T> extends GrammarBaseVisitor<Integer>{
 	List<Integer> outputs;
 
 	private int operationsCounter = 0;
-	private final int MAX_OPERATIONS = 5;
+	private final int MAX_OPERATIONS = 1000;
 
 	public GrammarCustomVisitor(List<Integer> inputs) {
 		this.memory = new HashMap<>();
@@ -30,7 +30,7 @@ public class GrammarCustomVisitor<T> extends GrammarBaseVisitor<Integer>{
 	@Override
 	public Integer visit(ParseTree tree) {
 		if(++operationsCounter < MAX_OPERATIONS) {
-			super.visit(tree);
+			return super.visit(tree);
 		}
 		return 0;
 	}
@@ -68,7 +68,8 @@ public class GrammarCustomVisitor<T> extends GrammarBaseVisitor<Integer>{
 			memory.put(variableName, variableValue);
 		}
 		else {
-			outputs.add(visit(ctx.factor()));
+			Integer i = visit(ctx.equation());
+			outputs.add(i);
 		}
 		return 0;
 	}
@@ -78,13 +79,13 @@ public class GrammarCustomVisitor<T> extends GrammarBaseVisitor<Integer>{
 	@Override public Integer visitConditional_statement(GrammarParser.Conditional_statementContext ctx) {
 		if (visit(ctx.expression()) > 0)
 		{
-			visit(ctx.statement(0));
+			visit(ctx.block_statement(0));
 		}
 		else if(ctx.ELSE() != null)
 		{
-			if(ctx.statement(1) != null)
+			if(ctx.block_statement(1) != null)
 			{
-				visit(ctx.statement(1));
+				visit(ctx.block_statement(1));
 			}
 			if (ctx.conditional_statement() != null)
 			{
@@ -97,7 +98,7 @@ public class GrammarCustomVisitor<T> extends GrammarBaseVisitor<Integer>{
 		visit(ctx.variable_declaration(0));
 		while (visit(ctx.expression()) > 0)
 		{
-			visit(ctx.statement());
+			visit(ctx.block_statement());
 			visit(ctx.variable_declaration(1));
 		}
 		return 0;
@@ -149,7 +150,14 @@ public class GrammarCustomVisitor<T> extends GrammarBaseVisitor<Integer>{
 			return visit(ctx.equation(0)) + visit(ctx.equation(1));
 		}
 		if (ctx.MINUS(0) != null) {
-			return visit(ctx.equation(0)) - visit(ctx.equation(1));
+			if (ctx.factor() != null)
+			{
+				return Integer.parseInt(ctx.getText());
+			}
+			else
+			{
+				return visit(ctx.equation(0)) - visit(ctx.equation(1));
+			}
 		}
 		if (ctx.factor() != null) {
 			return visit(ctx.factor());
@@ -159,6 +167,7 @@ public class GrammarCustomVisitor<T> extends GrammarBaseVisitor<Integer>{
 	@Override public Integer visitFactor(GrammarParser.FactorContext ctx) {
 		if (ctx.ID() != null)
 		{
+			memory.putIfAbsent(ctx.ID().getText(), 0);
 			return memory.get(ctx.ID().getText());
 		}
 		else

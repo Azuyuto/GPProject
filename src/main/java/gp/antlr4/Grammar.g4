@@ -22,7 +22,7 @@ variable_declaration
 
 io_functions
     :   ID ASSIGN IN
-    |   OUT ASSIGN factor ;
+    |   OUT ASSIGN equation ;
 
 block_statement
     :   LEFT_BRACE statement RIGHT_BRACE ;
