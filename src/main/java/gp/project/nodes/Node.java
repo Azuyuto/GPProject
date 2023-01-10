@@ -164,6 +164,45 @@ public abstract class Node implements Serializable {
         return null;
     }
 
+    public Optional<Node> crossover(Node node, int nodeNumber){
+        return Optional.empty();
+    }
+
+    protected Optional<Node> crossoverFurther(Node node, int nodeNumber){
+        for(int i=0; i<children.size(); i++){
+            Optional<Node> toReplace = children.get(i).crossover(node, nodeNumber);
+            if (toReplace.isPresent()) {
+                children.set(i, toReplace.get());
+                return Optional.empty();
+            }
+        }
+
+        return Optional.empty();
+    }
+
+    protected Optional<Node> crossoverBody(Node node) {
+        List<Node> properNodes = node.findByClass(this.getClass());
+        if (properNodes.isEmpty()) {
+            return Optional.empty();
+        } else {
+            int rand = Utils.rd.nextInt(properNodes.size());
+            return Optional.of(properNodes.get(rand));
+        }
+    }
+
+    public List<Node> findByClass(Class<?> type) {
+        List<Node> nodes = new ArrayList<>();
+        for(Node child : children) {
+            if (type.isInstance(child)) {
+                nodes.add(child);
+            }
+
+            nodes.addAll(child.findByClass(type));
+        }
+
+        return nodes;
+    }
+
 //    public Node crossover() {
 //
 //    }

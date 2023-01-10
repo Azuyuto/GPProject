@@ -15,7 +15,7 @@ public class GrammarCustomVisitor<T> extends GrammarBaseVisitor<Integer>{
 	List<Integer> outputs;
 
 	private int operationsCounter = 0;
-	private final int MAX_OPERATIONS = 1000;
+	private final int MAX_OPERATIONS = 5;
 
 	public GrammarCustomVisitor(List<Integer> inputs) {
 		this.memory = new HashMap<>();
@@ -29,7 +29,7 @@ public class GrammarCustomVisitor<T> extends GrammarBaseVisitor<Integer>{
 
 	@Override
 	public Integer visit(ParseTree tree) {
-		if(operationsCounter++ < MAX_OPERATIONS) {
+		if(++operationsCounter < MAX_OPERATIONS) {
 			super.visit(tree);
 		}
 		return 0;
@@ -37,7 +37,7 @@ public class GrammarCustomVisitor<T> extends GrammarBaseVisitor<Integer>{
 
 	@Override
 	public Integer visitChildren(RuleNode node) {
-		if(operationsCounter++ < MAX_OPERATIONS) {
+		if(++operationsCounter < MAX_OPERATIONS) {
 			super.visitChildren(node);
 		}
 		return 0;
