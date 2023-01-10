@@ -8,8 +8,11 @@ import gp.project.utils.Utils;
 import java.io.Serializable;
 
 public class ExpressionNode extends Node implements Serializable {
-    ExpressionNode(Tree tree, NodeType type, int depth) {
+    private StatementType statementType;
+
+    ExpressionNode(Tree tree, NodeType type, int depth, StatementType statementType) {
         super(tree, type, depth);
+        this.statementType = statementType;
     }
 
     public ExpressionNode(Node another)
@@ -22,7 +25,7 @@ public class ExpressionNode extends Node implements Serializable {
 
         if (nextStatement && this.getDepth() < Utils.MAX_DEPTH - 1)
         {
-            Node node = addNodeByStatementType(StatementType.EXPRESSIONS);
+            Node node = addNodeByStatementType(statementType);
             node.grow();
         }
         else
@@ -43,5 +46,15 @@ public class ExpressionNode extends Node implements Serializable {
         NodeType type = NodeType.getRandomNodeTypeByStatementType(StatementType.EXPRESSIONS);
         this.setType(type);
         grow();
+    }
+
+    @Override
+    public String toCode()
+    {
+        if(getType() == NodeType.NOT)
+            return getType().GetName() + getChildren().get(0).toCode();
+        String left = getChildren().get(0).toCode();
+        String right = getChildren().get(1).toCode();
+        return String.format("(%s) %s %s", left, getType().GetName(), right);
     }
 }

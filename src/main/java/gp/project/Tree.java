@@ -7,8 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.*;
-import org.apache.commons.lang3.SerializationUtils;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -72,5 +72,10 @@ public class Tree implements Serializable  {
 
     public Node getNodeByNumber(int number){
         return root.getNodeByNumber(number);
+    }
+
+    public String toCode()
+    {
+        return root.toCode();
     }
 }

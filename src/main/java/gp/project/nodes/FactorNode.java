@@ -37,4 +37,10 @@ public class FactorNode extends Node implements Serializable {
             this.setValue(Utils.GetRandomDeclarationNumbers());
         }
     }
+
+    @Override
+    public String toCode()
+    {
+        return getType() == NodeType.ID ? getName() : String.valueOf(getValue());
+    }
 }

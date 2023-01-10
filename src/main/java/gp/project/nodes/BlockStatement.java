@@ -6,6 +6,8 @@ import gp.project.enums.StatementType;
 import gp.project.utils.Utils;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class BlockStatement extends Node implements Serializable {
     BlockStatement(Tree tree, NodeType type, int depth) {
@@ -34,5 +36,12 @@ public class BlockStatement extends Node implements Serializable {
         super.mutate();
         clearChildren();
         grow();
+    }
+
+    @Override
+    public String toCode()
+    {
+        List<String> codes = getChildren().stream().map(Node::toCode).collect(Collectors.toList());
+        return String.format("\n{\n%s}\n", String.join("", codes));
     }
 }

@@ -1,5 +1,7 @@
 package gp.project.nodes;
 
+import gp.project.Tree;
+import gp.project.enums.NodeType;
 import gp.project.enums.StatementType;
 import gp.project.utils.Utils;
 import lombok.Data;
@@ -8,10 +10,8 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import java.io.Serializable;
-import java.util.*;
-
-import gp.project.enums.NodeType;
-import gp.project.Tree;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 public abstract class Node implements Serializable {
@@ -108,7 +108,7 @@ public abstract class Node implements Serializable {
                 return bNode;
             case EQUATIONS:
             case EXPRESSIONS:
-                ExpressionNode eNode = new ExpressionNode(tree, nodeType, depth + 1);
+                ExpressionNode eNode = new ExpressionNode(tree, nodeType, depth + 1, statementType);
                 children.add(eNode);
                 return eNode;
             case FACTORS:
@@ -162,6 +162,11 @@ public abstract class Node implements Serializable {
         }
 
         return null;
+    }
+
+    public String toCode()
+    {
+        return "";
     }
 
 //    public Node crossover() {

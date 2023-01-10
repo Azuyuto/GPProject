@@ -1,6 +1,5 @@
 package gp.project;
 
-import gp.project.utils.MyJTree;
 import gp.project.utils.Utils;
 import org.apache.commons.lang3.SerializationUtils;
 
@@ -83,7 +82,7 @@ public class TinyGP {
                 population.get(0).print();
             }
         }
-        MyJTree.ShowTree(new ArrayList<>(population));
+        //MyJTree.ShowTree(new ArrayList<>(population));
 
         System.out.println("-----------------------------------------------------------------------------------");
 
@@ -95,13 +94,14 @@ public class TinyGP {
 
         // # MUTATE 2 WITH SERIALIZATION
         Tree copy = SerializationUtils.clone(population.get(0));
-        copy.mutate();
+        //copy.mutate();
         copy.print();
-        MyJTree.ShowTree(new ArrayList<>(){{add(copy);}});
+        System.out.print(copy.toCode());
+        //MyJTree.ShowTree(new ArrayList<>(){{add(copy);}});
 
-        Serializer serializer = new Serializer();
-        Tree desTree = serializer.deserialize("202211301843.txt");
-        MyJTree.ShowTree(new ArrayList<>(){{add(desTree);}});
+        //Serializer serializer = new Serializer();
+        //Tree desTree = serializer.deserialize("202211301843.txt");
+        //MyJTree.ShowTree(new ArrayList<>(){{add(desTree);}});
 //        String fileName = new SimpleDateFormat("yyyyMMddHHmm'.txt'").format(new Date());
 //        try {
 //            FileOutputStream fos = new FileOutputStream(fileName);
