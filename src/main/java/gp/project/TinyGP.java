@@ -124,6 +124,12 @@ public class TinyGP {
         System.out.flush();
     }
 
+    Tree crossover(Tree parent1, Tree parent2) {
+        Tree offspring = SerializationUtils.clone(parent1);
+        offspring.crossover(parent2);
+        return offspring;
+    }
+
     void evolve() {
         try {
             //czytanie z pliku
@@ -132,18 +138,27 @@ public class TinyGP {
             INPUTS = data.getINPUTS();
             OUTPUTS = data.getOUTPUTS();
 
+            Tree newInd;
+
             stats(fitness, population, 0);
             for (int gen = 1; gen < GENERATIONS; gen++) {
-                if (fitnessBestPop > -1e-5) {
+                if (fitnessBestPop > 1000) {
                     System.out.print("PROBLEM SOLVED\n");
                     System.out.print(population.get(bestLastPop).toCode());
                     System.exit(0);
                 }
                 for (int i = 0; i < POPULATION_SIZE; i++) {
+
                     // TODO: CROSSOVER
+                    if (rd.nextDouble() < 1) {
+                        int parent1 = tournament();
+                        int parent2 = tournament();
+                        newInd = crossover(population.get(parent1), population.get(parent2));
+                        newInd.toCode();
+                    }
                     // MUTATE
                     int parent = tournament();
-                    Tree newInd = SerializationUtils.clone(population.get(parent));
+                    newInd = SerializationUtils.clone(population.get(parent));
                     newInd.mutate();
 
                     int offspring = negativeTournament();

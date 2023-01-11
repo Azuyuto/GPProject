@@ -21,7 +21,7 @@ public abstract class Node implements Serializable {
     private String name;
     private int value;
     private int depth;
-    private int number;
+    public int number;
     private List<Node> children = new ArrayList<>();
     private boolean isMutated;
 

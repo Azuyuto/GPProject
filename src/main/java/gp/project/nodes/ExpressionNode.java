@@ -6,6 +6,7 @@ import gp.project.enums.StatementType;
 import gp.project.utils.Utils;
 
 import java.io.Serializable;
+import java.util.Optional;
 
 public class ExpressionNode extends Node implements Serializable {
     private StatementType statementType;
@@ -56,5 +57,14 @@ public class ExpressionNode extends Node implements Serializable {
         String left = getChildren().get(0).toCode();
         String right = getChildren().get(1).toCode();
         return String.format("(%s) %s %s", left, getType().GetName(), right);
+    }
+
+    @Override
+    public Optional<Node> crossover(Node node, int nodeNumber) {
+        if (number != nodeNumber) {
+            return crossoverFurther(node, nodeNumber);
+        } else {
+            return crossoverBody(node);
+        }
     }
 }

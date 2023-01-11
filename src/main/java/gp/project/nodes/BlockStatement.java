@@ -7,6 +7,7 @@ import gp.project.utils.Utils;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class BlockStatement extends Node implements Serializable {
@@ -43,5 +44,14 @@ public class BlockStatement extends Node implements Serializable {
     {
         List<String> codes = getChildren().stream().map(Node::toCode).collect(Collectors.toList());
         return String.format("\n{\n%s}\n", String.join("", codes));
+    }
+
+    @Override
+    public Optional<Node> crossover(Node node, int nodeNumber) {
+        if (number != nodeNumber) {
+            return crossoverFurther(node, nodeNumber);
+        } else {
+            return crossoverBody(node);
+        }
     }
 }

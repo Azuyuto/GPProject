@@ -6,6 +6,7 @@ import gp.project.enums.StatementType;
 import gp.project.utils.Utils;
 
 import java.io.Serializable;
+import java.util.Optional;
 
 public class BasicStatementNode extends Node implements Serializable {
     BasicStatementNode(Tree tree, NodeType type, int depth) {
@@ -97,6 +98,15 @@ public class BasicStatementNode extends Node implements Serializable {
                 return String.format("%s = %s;\n", getChildren().get(0).toCode(), getChildren().get(1).toCode());
             default:
                 return "";
+        }
+    }
+
+    @Override
+    public Optional<Node> crossover(Node node, int nodeNumber) {
+        if (number != nodeNumber) {
+            return crossoverFurther(node, nodeNumber);
+        } else {
+            return crossoverBody(node);
         }
     }
 }

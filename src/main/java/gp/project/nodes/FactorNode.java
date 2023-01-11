@@ -5,6 +5,7 @@ import gp.project.enums.NodeType;
 import gp.project.utils.Utils;
 
 import java.io.Serializable;
+import java.util.Optional;
 
 public class FactorNode extends Node implements Serializable {
     public FactorNode(Tree tree, NodeType type, int depth) {
@@ -39,5 +40,14 @@ public class FactorNode extends Node implements Serializable {
     public String toCode()
     {
         return getType() == NodeType.ID ? getName() : String.valueOf(getValue());
+    }
+
+    @Override
+    public Optional<Node> crossover(Node node, int nodeNumber) {
+        if (number != nodeNumber) {
+            return Optional.empty();
+        } else {
+            return crossoverBody(node);
+        }
     }
 }
