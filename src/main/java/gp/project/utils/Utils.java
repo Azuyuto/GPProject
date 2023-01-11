@@ -1,19 +1,17 @@
 package gp.project.utils;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class Utils {
     public static Integer countNodes = 0;
 
+    public static double PROBABILITY_WIDTH_EXTENSION = 0.5;
+
     public static Integer MAX_DEPTH = 3;
 
-    public static List<Integer> declarationNumbers = new ArrayList<>();
-
-    public static int GetRandomDeclarationNumbers(){ return declarationNumbers.get(rd.nextInt(declarationNumbers.size())); }
-
     public static Random rd = new Random();
+
+    public static boolean IsWidthExtension() { return rd.nextInt(100) < (int)(PROBABILITY_WIDTH_EXTENSION * 100); }
 
     public static int GetRandomNumberBetween(int first, int last)
     {

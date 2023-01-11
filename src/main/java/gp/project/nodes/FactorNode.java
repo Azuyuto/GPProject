@@ -2,7 +2,6 @@ package gp.project.nodes;
 
 import gp.project.Tree;
 import gp.project.enums.NodeType;
-import gp.project.enums.StatementType;
 import gp.project.utils.Utils;
 
 import java.io.Serializable;
@@ -17,7 +16,7 @@ public class FactorNode extends Node implements Serializable {
         } 
         else
         {
-            this.setValue(Utils.GetRandomDeclarationNumbers());
+            this.setValue(Utils.GetRandomNumberBetween(this.getTree().minRandomNumber, this.getTree().maxRandomNumber));
         }
     }
 
@@ -29,12 +28,10 @@ public class FactorNode extends Node implements Serializable {
     @Override
     public void mutate() {
         super.mutate();
-        NodeType type = NodeType.getRandomNodeTypeByStatementType(StatementType.FACTORS);
-        this.setType(type);
-        if (type == NodeType.ID) {
+        if (getType() == NodeType.ID) {
             this.setName(this.getTree().getRandomVariable());
         } else {
-            this.setValue(Utils.GetRandomDeclarationNumbers());
+            this.setValue(Utils.GetRandomNumberBetween(this.getTree().minRandomNumber, this.getTree().maxRandomNumber));
         }
     }
 

@@ -14,8 +14,9 @@ public class GrammarCustomVisitor<T> extends GrammarBaseVisitor<Integer>{
 	LinkedList<Integer> inputs;
 	List<Integer> outputs;
 
+	private boolean isValid = true;
 	private int operationsCounter = 0;
-	private final int MAX_OPERATIONS = 1000;
+	private final int MAX_OPERATIONS = 500;
 
 	public GrammarCustomVisitor(List<Integer> inputs) {
 		this.memory = new HashMap<>();
@@ -33,16 +34,21 @@ public class GrammarCustomVisitor<T> extends GrammarBaseVisitor<Integer>{
 
 	@Override
 	public Integer visit(ParseTree tree) {
-		if(++operationsCounter < MAX_OPERATIONS) {
+		if(++operationsCounter < MAX_OPERATIONS && isValid) {
 			return super.visit(tree);
+		}
+		else {
+			outputs.clear();
 		}
 		return 0;
 	}
 
 	@Override
 	public Integer visitChildren(RuleNode node) {
-		if(++operationsCounter < MAX_OPERATIONS) {
+		if(++operationsCounter < MAX_OPERATIONS && isValid) {
 			super.visitChildren(node);
+		} else {
+			outputs.clear();
 		}
 		return 0;
 	}
@@ -66,8 +72,13 @@ public class GrammarCustomVisitor<T> extends GrammarBaseVisitor<Integer>{
 	@Override public Integer visitIo_functions(GrammarParser.Io_functionsContext ctx) {
 
 		if (ctx.IN() != null) {
+			if(inputs.size() == 0)
+			{
+				isValid = false;
+				return 0;
+			}
 			String variableName = ctx.ID().getText();
-			Integer variableValue = inputs.size() > 0 ? inputs.pop() : 0;
+			Integer variableValue = inputs.pop();
 
 			memory.put(variableName, variableValue);
 		}
@@ -148,7 +159,16 @@ public class GrammarCustomVisitor<T> extends GrammarBaseVisitor<Integer>{
 			return visit(ctx.equation(0)) * visit(ctx.equation(1));
 		}
 		if (ctx.DIV() != null) {
-			return visit(ctx.equation(0)) / (visit(ctx.equation(1)) != 0 ? visit(ctx.equation(1)) : 1);
+			Integer left = visit(ctx.equation(0));
+			Integer right = visit(ctx.equation(1));
+			if (Math.abs(right) <= 0.001)
+			{
+				return (left);
+			}
+			else
+			{
+				return (left / right);
+			}
 		}
 		if (ctx.PLUS(0) != null) {
 			return visit(ctx.equation(0)) + visit(ctx.equation(1));

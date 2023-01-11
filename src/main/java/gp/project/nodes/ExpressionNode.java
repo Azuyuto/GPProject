@@ -43,7 +43,7 @@ public class ExpressionNode extends Node implements Serializable {
     public void mutate() {
         super.mutate();
         clearChildren();
-        NodeType type = NodeType.getRandomNodeTypeByStatementType(StatementType.EXPRESSIONS);
+        NodeType type = NodeType.getRandomNodeTypeByStatementType(statementType);
         this.setType(type);
         grow();
     }

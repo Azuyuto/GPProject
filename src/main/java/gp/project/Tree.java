@@ -21,7 +21,7 @@ import java.util.List;
 public class Tree implements Serializable  {
     private List<String> variables = new ArrayList<>();
     private InitNode root = new InitNode(this);
-
+    public int minRandomNumber, maxRandomNumber;
 
     public Tree() {}
 
@@ -34,24 +34,17 @@ public class Tree implements Serializable  {
         root.grow();
     }
 
-    public void print()
-    {
-        root.print();
-    }
-
-    public int run(List<Integer> inputs) {
+    public List<Integer> run(List<Integer> inputs) {
+        //System.out.print(toCode());
         GrammarLexer lexer = new GrammarLexer(CharStreams.fromString(toCode()));
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         GrammarParser parser = new GrammarParser(tokens);
 
         ParseTree tree = parser.init();
-        inputs.add(1);
-        inputs.add(2);
         GrammarCustomVisitor<Integer> visitor = new GrammarCustomVisitor<>(inputs);
         visitor.visit(tree);
-        visitor.printOutputs();
 
-        return visitor.getOutputs().size() > 0 ? visitor.getOutputs().get(0) : 1000;
+        return visitor.getOutputs();
     }
 
     public void addVariable(String variable)

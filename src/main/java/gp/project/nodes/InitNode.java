@@ -28,7 +28,7 @@ public class InitNode extends Node implements Serializable {
         BasicStatementNode node = (BasicStatementNode)addNodeByStatementType(StatementType.BASIC_STATEMENTS);
         node.grow();
 
-        boolean nextStatement = Utils.GetRandomNumber(2) == 1;
+        boolean nextStatement = Utils.IsWidthExtension();
         if (nextStatement)
         {
             grow();

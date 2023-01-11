@@ -1,42 +1,63 @@
 package gp.project;
 
+import gp.project.utils.MyJTree;
 import gp.project.utils.Utils;
 import org.apache.commons.lang3.SerializationUtils;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static gp.project.utils.Utils.rd;
 
 public class TinyGP {
     List<Tree> population = new ArrayList<>();
+    int bestLastPop = 0;
+    double fitnessBestPop = 0.0, fitnessAvgPop = 0.0;
     double[] fitness;
 
     final int
-            POPULATION_SIZE = 100,
-            GENERATIONS = 2,
-            TOURNAMENT_SIZE = 2,
-            RANDOM_COUNT = 4,
-            MIN_RANDOM = -5,
-            MAX_RANDOM = 5,
+            POPULATION_SIZE = 1000,
+            GENERATIONS = 100,
+            MIN_RANDOM = -20,
+            MAX_RANDOM = 20,
             T_SIZE = 2;
 
-    final List<List<Integer>> INPUTS = new ArrayList<List<Integer>>() {{
+    final List<List<Integer>> INPUTS = new ArrayList<>() {{
         add(new ArrayList<>() {{
             add(1);
-            add(2);
+            add(5);
+        }});
+        add(new ArrayList<>() {{
+            add(-3);
+            add(5);
         }});
         add(new ArrayList<>() {{
             add(3);
-            add(4);
+            add(8);
+        }});
+        add(new ArrayList<>() {{
+            add(2);
+            add(-6);
+        }});
+        add(new ArrayList<>() {{
+            add(0);
+            add(3);
         }});
     }};
     // [0] => [1, 2]
     // [1] => [3, 4]
 
     final List<Integer> OUTPUTS = new ArrayList<>() {{
-        add(1);
-        add(2);
+        add(5);
+        add(5);
+        add(8);
+        add(6);
+        add(3);
     }};
     // [0] => 1
     // [1] => 2
@@ -47,9 +68,6 @@ public class TinyGP {
         if (seed >= 0)
             Utils.SetSeed(seed);
 
-        for (int i = 0; i < RANDOM_COUNT; i++)
-            Utils.declarationNumbers.add(Utils.GetRandomNumberBetween(MIN_RANDOM, MAX_RANDOM));
-
         createRandomPopulation();
     }
 
@@ -57,11 +75,14 @@ public class TinyGP {
         int fitness = 0;
 
         for (int i = 0 ; i < OUTPUTS.size() ; i ++) {
-            Integer treeValue = tree.run(INPUTS.get(i));
-            fitness += Math.abs(OUTPUTS.get(i) -treeValue);
+            List<Integer> treeValues = tree.run(INPUTS.get(i));
+            if(treeValues.size() == 0)
+                fitness += 10000;
+            else
+                fitness += Math.abs(OUTPUTS.get(i) - treeValues.get(0));
         }
 
-        return fitness / OUTPUTS.size();
+        return -fitness;
     }
 
     void createRandomPopulation() {
@@ -74,14 +95,16 @@ public class TinyGP {
 
     Tree createRandomTree() {
         Tree tree = new Tree();
+        tree.minRandomNumber = MIN_RANDOM;
+        tree.maxRandomNumber = MAX_RANDOM;
         tree.grow();
 
         return tree;
     }
 
-    int tournament( double [] fitness ) {
+    int tournament() {
         int best = rd.nextInt(POPULATION_SIZE), i, competitor;
-        double  fitnessBest = -1.0e34;
+        double fitnessBest = -1.0e34;
 
         for ( i = 0; i < T_SIZE; i ++ ) {
             competitor = rd.nextInt(POPULATION_SIZE);
@@ -90,70 +113,131 @@ public class TinyGP {
                 best = competitor;
             }
         }
-        return( best );
+        return(best);
     }
 
-    int negativeTournament(double [] fitness ) {
+    int negativeTournament() {
         int worst = rd.nextInt(POPULATION_SIZE), i, competitor;
-        double fworst = 1e34;
+        double f_worst = 1e34;
 
         for ( i = 0; i < T_SIZE; i ++ ) {
             competitor = rd.nextInt(POPULATION_SIZE);
-            if ( fitness[competitor] < fworst ) {
-                fworst = fitness[competitor];
+            if (fitness[competitor] < f_worst) {
+                f_worst = fitness[competitor];
                 worst = competitor;
             }
         }
-        return( worst );
+        return(worst);
+    }
+
+    void stats( double [] fitness, List<Tree> population, int gen ) {
+        int i, best = rd.nextInt(POPULATION_SIZE);
+        fitnessBestPop = fitness[best];
+        fitnessAvgPop = 0.0;
+
+        for (i = 0; i < POPULATION_SIZE; i ++ ) {
+            fitnessAvgPop += fitness[i];
+            if ( fitness[i] > fitnessBestPop) {
+                best = i;
+                fitnessBestPop = fitness[i];
+            }
+        }
+        fitnessAvgPop /= POPULATION_SIZE;
+        System.out.print("Generation="+gen+", avg Fitness="+(-fitnessAvgPop)+", best Fitness="+(-fitnessBestPop)+", best population: "+best+"\n");
+        //System.out.print(population.get(best).toCode());
+        bestLastPop = best;
+        System.out.flush();
     }
 
     void evolve() {
-        for (int gen = 1; gen < GENERATIONS; gen++) {
-            for (int i = 0; i < POPULATION_SIZE; i++) {
-                //TODO: add example mutation and crossover
-                population.get(0).print();
+        stats( fitness, population, 0 );
+        for (int gen = 1; gen < GENERATIONS; gen ++ ) {
+            if (fitnessBestPop > -1e-5) {
+                System.out.print("PROBLEM SOLVED\n");
+                System.out.print(population.get(bestLastPop).toCode());
+                System.exit( 0 );
             }
+            for (int i = 0; i < POPULATION_SIZE; i++) {
+                // TODO: CROSSOVER
+                // MUTATE
+                int parent = tournament();
+                Tree newInd = SerializationUtils.clone(population.get(parent));
+                newInd.mutate();
+
+                int offspring = negativeTournament();
+                population.set(offspring, newInd);
+                fitness[offspring] = fitnessFunction(newInd);
+            }
+            stats(fitness, population, gen);
         }
-        //MyJTree.ShowTree(new ArrayList<>(population));
 
         System.out.println("-----------------------------------------------------------------------------------");
+        System.out.print("PROBLEM NOT SOLVED\n");
+        System.exit(1);
+    }
 
-        // # MUTATE 1
-        //Tree treeToMutate = new Tree(population.get(0));
-        //treeToMutate.mutate();
-        //treeToMutate.print();
-        //MyJTree.ShowTree(new ArrayList<>(){{add(treeToMutate);}});
+    void test()
+    {
 
-        // # MUTATE 2 WITH SERIALIZATION
+    }
+
+    void testMutate()
+    {
+        // create mutate element
+        Tree treeAfterMutate = new Tree(population.get(0));
+        treeAfterMutate.mutate();
+
+        // show in console
+        System.out.print(population.get(0).toCode());
+        System.out.print(treeAfterMutate.toCode());
+
+        // show tree
+        MyJTree.ShowTree(new ArrayList<>(){{add(population.get(0));}});
+        MyJTree.ShowTree(new ArrayList<>(){{add(treeAfterMutate);}});
+    }
+
+    void testCrossOver()
+    {
+        // TODO:
+    }
+
+    void testCopy()
+    {
+        // copy
         Tree copy = SerializationUtils.clone(population.get(0));
-        //copy.mutate();
-        copy.print();
+
+        // show in console
+        System.out.print(population.get(0).toCode());
         System.out.print(copy.toCode());
-        //MyJTree.ShowTree(new ArrayList<>(){{add(copy);}});
 
-        //Serializer serializer = new Serializer();
-        //Tree desTree = serializer.deserialize("202211301843.txt");
-        //MyJTree.ShowTree(new ArrayList<>(){{add(desTree);}});
-//        Serializer serializer = new Serializer();
-//        Tree desTree = serializer.deserialize("202211301843.txt");
-//        MyJTree.ShowTree(new ArrayList<>(){{add(desTree);}});
-//        String fileName = new SimpleDateFormat("yyyyMMddHHmm'.txt'").format(new Date());
-//        try {
-//            FileOutputStream fos = new FileOutputStream(fileName);
-//            SerializationUtils.serialize(copy, fos);
-//            fos.close();
-//
-//            FileInputStream fis = new FileInputStream(fileName);
-//
-//            Tree desTree = (Tree) SerializationUtils.deserialize(fis);
-//            System.out.println("-------------DESERIALIZED--------------------");
-//            desTree.print();
-//            fis.close();
-//        } catch (IOException ignore) {
-//
-//        }
+        // show tree
+        MyJTree.ShowTree(new ArrayList<>(){{add(population.get(0));}});
+        MyJTree.ShowTree(new ArrayList<>(){{add(copy);}});
+    }
 
-        System.out.print("PROBLEM ? SOLVED\n");
-        //System.exit(1);
+    void testDeserialization()
+    {
+        Serializer serializer = new Serializer();
+        Tree desTree = serializer.deserialize("202211301843.txt");
+        MyJTree.ShowTree(new ArrayList<>(){{add(desTree);}});
+    }
+
+    void testSerialization()
+    {
+        String fileName = new SimpleDateFormat("yyyyMMddHHmm'.txt'").format(new Date());
+        try {
+            FileOutputStream fos = new FileOutputStream(fileName);
+            SerializationUtils.serialize(population.get(0), fos);
+            fos.close();
+
+            FileInputStream fis = new FileInputStream(fileName);
+
+            Tree desTree = SerializationUtils.deserialize(fis);
+            System.out.println("-------------DESERIALIZED--------------------");
+            System.out.print(desTree.toCode());
+            fis.close();
+        } catch (IOException ignore) {
+
+        }
     }
 }
