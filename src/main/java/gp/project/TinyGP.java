@@ -27,38 +27,13 @@ public class TinyGP {
             MAX_RANDOM = 20,
             T_SIZE = 2;
 
-    final List<List<Integer>> INPUTS = new ArrayList<>() {{
-        add(new ArrayList<>() {{
-            add(1);
-            add(5);
-        }});
-        add(new ArrayList<>() {{
-            add(-3);
-            add(5);
-        }});
-        add(new ArrayList<>() {{
-            add(3);
-            add(8);
-        }});
-        add(new ArrayList<>() {{
-            add(2);
-            add(-6);
-        }});
-        add(new ArrayList<>() {{
-            add(0);
-            add(3);
-        }});
-    }};
+    List<List<Integer>> INPUTS = new ArrayList<>();
+
     // [0] => [1, 2]
     // [1] => [3, 4]
 
-    final List<Integer> OUTPUTS = new ArrayList<>() {{
-        add(5);
-        add(5);
-        add(8);
-        add(6);
-        add(3);
-    }};
+    List<Integer> OUTPUTS = new ArrayList<>();
+
     // [0] => 1
     // [1] => 2
 
@@ -150,30 +125,40 @@ public class TinyGP {
     }
 
     void evolve() {
-        stats( fitness, population, 0 );
-        for (int gen = 1; gen < GENERATIONS; gen ++ ) {
-            if (fitnessBestPop > -1e-5) {
-                System.out.print("PROBLEM SOLVED\n");
-                System.out.print(population.get(bestLastPop).toCode());
-                System.exit( 0 );
-            }
-            for (int i = 0; i < POPULATION_SIZE; i++) {
-                // TODO: CROSSOVER
-                // MUTATE
-                int parent = tournament();
-                Tree newInd = SerializationUtils.clone(population.get(parent));
-                newInd.mutate();
+        try {
+            //czytanie z pliku
+            DataReader dataReader = new DataReader();
+            Data data = dataReader.read();
+            INPUTS = data.getINPUTS();
+            OUTPUTS = data.getOUTPUTS();
 
-                int offspring = negativeTournament();
-                population.set(offspring, newInd);
-                fitness[offspring] = fitnessFunction(newInd);
+            stats(fitness, population, 0);
+            for (int gen = 1; gen < GENERATIONS; gen++) {
+                if (fitnessBestPop > -1e-5) {
+                    System.out.print("PROBLEM SOLVED\n");
+                    System.out.print(population.get(bestLastPop).toCode());
+                    System.exit(0);
+                }
+                for (int i = 0; i < POPULATION_SIZE; i++) {
+                    // TODO: CROSSOVER
+                    // MUTATE
+                    int parent = tournament();
+                    Tree newInd = SerializationUtils.clone(population.get(parent));
+                    newInd.mutate();
+
+                    int offspring = negativeTournament();
+                    population.set(offspring, newInd);
+                    fitness[offspring] = fitnessFunction(newInd);
+                }
+                stats(fitness, population, gen);
             }
-            stats(fitness, population, gen);
+
+            System.out.println("-----------------------------------------------------------------------------------");
+            System.out.print("PROBLEM NOT SOLVED\n");
+            System.exit(1);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-        System.out.println("-----------------------------------------------------------------------------------");
-        System.out.print("PROBLEM NOT SOLVED\n");
-        System.exit(1);
     }
 
     void test()
