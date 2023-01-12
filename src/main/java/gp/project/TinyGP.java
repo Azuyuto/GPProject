@@ -21,10 +21,10 @@ public class TinyGP {
     double[] fitness;
 
     final int
-            POPULATION_SIZE = 1000,
-            GENERATIONS = 100,
-            MIN_RANDOM = -20,
-            MAX_RANDOM = 20,
+            POPULATION_SIZE = 10000,
+            GENERATIONS = 200,
+            MIN_RANDOM = -10,
+            MAX_RANDOM = 10,
             T_SIZE = 2;
 
     List<List<Integer>> INPUTS = new ArrayList<>();
@@ -38,6 +38,15 @@ public class TinyGP {
     // [1] => 2
 
     public TinyGP(long seed) {
+        //czytanie z pliku
+        try{
+            DataReader dataReader = new DataReader();
+            Data data = dataReader.read();
+            INPUTS = data.getINPUTS();
+            OUTPUTS = data.getOUTPUTS();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         fitness = new double[POPULATION_SIZE];
 
         if (seed >= 0)
@@ -52,7 +61,7 @@ public class TinyGP {
         for (int i = 0 ; i < OUTPUTS.size() ; i ++) {
             List<Integer> treeValues = tree.run(INPUTS.get(i));
             if(treeValues.size() == 0)
-                fitness += 10000;
+                fitness += 1000;
             else
                 fitness += Math.abs(OUTPUTS.get(i) - treeValues.get(0));
         }
@@ -132,34 +141,31 @@ public class TinyGP {
 
     void evolve() {
         try {
-            //czytanie z pliku
-            DataReader dataReader = new DataReader();
-            Data data = dataReader.read();
-            INPUTS = data.getINPUTS();
-            OUTPUTS = data.getOUTPUTS();
-
             Tree newInd;
 
             stats(fitness, population, 0);
             for (int gen = 1; gen < GENERATIONS; gen++) {
-                if (fitnessBestPop > 1000) {
+                if (fitnessBestPop > -1e-5) {
                     System.out.print("PROBLEM SOLVED\n");
                     System.out.print(population.get(bestLastPop).toCode());
                     System.exit(0);
                 }
                 for (int i = 0; i < POPULATION_SIZE; i++) {
 
-                    // TODO: CROSSOVER
-                    if (rd.nextDouble() < 1) {
-                        int parent1 = tournament();
-                        int parent2 = tournament();
-                        newInd = crossover(population.get(parent1), population.get(parent2));
-                        newInd.toCode();
-                    }
-                    // MUTATE
-                    int parent = tournament();
-                    newInd = SerializationUtils.clone(population.get(parent));
-                    newInd.mutate();
+//                    if (rd.nextDouble() < 1) {
+//                        // TODO: CROSSOVER
+//                        int parent1 = tournament();
+//                        int parent2 = tournament();
+//                        newInd = crossover(population.get(parent1), population.get(parent2));
+//                        newInd.toCode();
+                    //}
+                    //else
+                    //{
+                        // MUTATE
+                        int parent = tournament();
+                        newInd = SerializationUtils.clone(population.get(parent));
+                        newInd.mutate();
+                    //}
 
                     int offspring = negativeTournament();
                     population.set(offspring, newInd);
@@ -167,7 +173,7 @@ public class TinyGP {
                 }
                 stats(fitness, population, gen);
             }
-
+            System.out.print(population.get(bestLastPop).toCode());
             System.out.println("-----------------------------------------------------------------------------------");
             System.out.print("PROBLEM NOT SOLVED\n");
             System.exit(1);

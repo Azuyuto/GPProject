@@ -25,7 +25,8 @@ public class DataReader {
                 input.add(Integer.parseInt(tokens.nextToken()));
             }
             data.getINPUTS().add(input);
-            data.getOUTPUTS().add(Integer.parseInt(tokens.nextToken()));
+            Integer o = Integer.parseInt(tokens.nextToken());
+            data.getOUTPUTS().add(o);
         }
         return data;
     }
