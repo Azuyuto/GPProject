@@ -7,7 +7,7 @@ public class Utils {
 
     public static double PROBABILITY_WIDTH_EXTENSION = 0.5;
 
-    public static Integer MAX_DEPTH = 3;
+    public static Integer MAX_DEPTH = 5;
 
     public static Random rd = new Random();
 

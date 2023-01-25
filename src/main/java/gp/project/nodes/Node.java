@@ -182,7 +182,7 @@ public abstract class Node implements Serializable {
     }
 
     protected Optional<Node> crossoverBody(Node node) {
-        List<Node> properNodes = node.findByClass(this.getClass());
+        List<Node> properNodes = node.findByClass(this.getType());
         if (properNodes.isEmpty()) {
             return Optional.empty();
         } else {
@@ -191,10 +191,10 @@ public abstract class Node implements Serializable {
         }
     }
 
-    public List<Node> findByClass(Class<?> type) {
+    public List<Node> findByClass(NodeType nt) {
         List<Node> nodes = new ArrayList<>();
         for(Node child : children) {
-            if (type.isInstance(child)) {
+            if (nt == child.getType()) {
                 nodes.add(child);
             }
 

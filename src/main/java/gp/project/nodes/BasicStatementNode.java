@@ -31,7 +31,7 @@ public class BasicStatementNode extends Node implements Serializable {
                 addNodeByStatementType(StatementType.EXPRESSIONS); // X1 < 2
                 addNodeByStatementType(StatementType.BLOCK_STATEMENTS);
 
-                boolean addElse = Utils.GetRandomNumber(1) == 1;
+                boolean addElse = Utils.GetRandomNumber(2) == 1;
                 if (addElse)
                 {
                     addNodeByStatementType(StatementType.BASIC_STATEMENTS);
@@ -76,13 +76,13 @@ public class BasicStatementNode extends Node implements Serializable {
         switch (getType())
         {
             case IN:
-                return String.format("%s = in;\n", getChildren().get(0).toCode());
+                return String.format(" %s = in;\n", getChildren().get(0).toCode());
             case OUT:
-                return String.format("out = %s;\n", getChildren().get(0).toCode());
+                return String.format(" out = %s;\n", getChildren().get(0).toCode());
             case IF:
                 String e = getChildren().get(0).toCode();
                 String i = getChildren().get(1).toCode();
-                String s = String.format("if (%s) %s", e, i);
+                String s = String.format(" if (%s) %s", e, i);
                 if(getChildren().size() == 3)
                 {
                     return String.format("%s else %s", s, i);
@@ -93,9 +93,9 @@ public class BasicStatementNode extends Node implements Serializable {
                 String ex = getChildren().get(1).toCode();
                 String a2 = getChildren().get(2).toCode();
                 String st = getChildren().get(3).toCode();
-                return String.format("for(%s;%s;%s) %s", a1.substring(0, a1.length() - 2), ex, a2.substring(0, a2.length() - 2), st);
+                return String.format(" for(%s;%s;%s) %s", a1.substring(0, a1.length() - 2), ex, a2.substring(0, a2.length() - 2), st);
             case ASSIGN:
-                return String.format("%s = %s;\n", getChildren().get(0).toCode(), getChildren().get(1).toCode());
+                return String.format(" %s = %s;\n", getChildren().get(0).toCode(), getChildren().get(1).toCode());
             default:
                 return "";
         }
@@ -104,7 +104,7 @@ public class BasicStatementNode extends Node implements Serializable {
     @Override
     public Optional<Node> crossover(Node node, int nodeNumber) {
         if (number != nodeNumber) {
-            return crossoverFurther(node, nodeNumber);
+            return Optional.empty();
         } else {
             return crossoverBody(node);
         }

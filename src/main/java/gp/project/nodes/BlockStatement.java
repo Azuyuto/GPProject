@@ -49,7 +49,7 @@ public class BlockStatement extends Node implements Serializable {
     @Override
     public Optional<Node> crossover(Node node, int nodeNumber) {
         if (number != nodeNumber) {
-            return crossoverFurther(node, nodeNumber);
+            return Optional.empty();
         } else {
             return crossoverBody(node);
         }

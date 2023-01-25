@@ -38,16 +38,19 @@ expression
     |   expression (GREATER_THEN | LESS_THEN) expression
     |   expression (GREATER_EQUAL_THEN | LESS_EQUAL_THEN) expression
     |   expression (EQUAL | NOT_EQUAL) expression
+    |   expression (TIMES | DIV)  expression
+    |   expression (PLUS | MINUS) expression
     |   LEFT_PAREN expression RIGHT_PAREN
     |   NOT expression
-    |   equation ;
-
-equation
-   :   equation (TIMES | DIV)  equation
-   |   equation (PLUS | MINUS) equation
-   |   LEFT_PAREN equation RIGHT_PAREN
-   |   (PLUS | MINUS)* factor
+    |   equation
    ;
+
+ equation
+     :   equation (TIMES | DIV)  equation
+     |   equation (PLUS | MINUS) equation
+     |   LEFT_PAREN equation RIGHT_PAREN
+     |   (PLUS | MINUS)* factor
+    ;
 
 factor
    :   ID

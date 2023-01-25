@@ -21,11 +21,11 @@ public class TinyGP {
     double[] fitness;
 
     final int
-            POPULATION_SIZE = 10000,
-            GENERATIONS = 200,
+            POPULATION_SIZE = 2000,
+            GENERATIONS = 50,
             MIN_RANDOM = -10,
             MAX_RANDOM = 10,
-            T_SIZE = 2;
+            T_SIZE = 5;
 
     List<List<Integer>> INPUTS = new ArrayList<>();
 
@@ -130,6 +130,7 @@ public class TinyGP {
         System.out.print("Generation="+gen+", avg Fitness="+(-fitnessAvgPop)+", best Fitness="+(-fitnessBestPop)+", best population: "+best+"\n");
         //System.out.print(population.get(best).toCode());
         bestLastPop = best;
+        System.out.print(population.get(bestLastPop).toCode());
         System.out.flush();
     }
 
@@ -152,20 +153,20 @@ public class TinyGP {
                 }
                 for (int i = 0; i < POPULATION_SIZE; i++) {
 
-//                    if (rd.nextDouble() < 1) {
-//                        // TODO: CROSSOVER
-//                        int parent1 = tournament();
-//                        int parent2 = tournament();
-//                        newInd = crossover(population.get(parent1), population.get(parent2));
-//                        newInd.toCode();
-                    //}
-                    //else
-                    //{
+                    if (rd.nextDouble() < 0.85) {
+                        // TODO: CROSSOVER
+                        int parent1 = tournament();
+                        int parent2 = tournament();
+                        newInd = crossover(population.get(parent1), population.get(parent2));
+                        newInd.toCode();
+                    }
+                    else
+                    {
                         // MUTATE
                         int parent = tournament();
                         newInd = SerializationUtils.clone(population.get(parent));
                         newInd.mutate();
-                    //}
+                    }
 
                     int offspring = negativeTournament();
                     population.set(offspring, newInd);
