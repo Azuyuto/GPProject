@@ -30,6 +30,11 @@ public class BlockStatement extends Node implements Serializable {
         {
             grow();
         }
+
+        if(Utils.shouldAddRandomChild()) {
+            BasicStatementNode randomNode = (BasicStatementNode)addNodeByStatementType(StatementType.BASIC_STATEMENTS);
+            randomNode.grow();
+        }
     }
 
     @Override

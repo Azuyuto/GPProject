@@ -7,9 +7,13 @@ public class Utils {
 
     public static double PROBABILITY_WIDTH_EXTENSION = 0.5;
 
+    public static double PROBABILITY_ADD_CHILD = 0;
+
     public static Integer MAX_DEPTH = 5;
 
     public static Random rd = new Random();
+
+    public static boolean shouldAddRandomChild() { return rd.nextInt(100) < (int)(PROBABILITY_ADD_CHILD * 100); }
 
     public static boolean IsWidthExtension() { return rd.nextInt(100) < (int)(PROBABILITY_WIDTH_EXTENSION * 100); }
 
